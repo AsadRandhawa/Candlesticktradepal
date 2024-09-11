@@ -1,4 +1,4 @@
-import React, { Component, Suspense, lazy } from "react";
+import React, {Suspense, lazy } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -15,13 +15,11 @@ const PlanAndAnalytics = lazy(() => import("./dashboard/PlanAndAnalytics"));
 const Login = lazy(() => import("./user-pages/Login"));
 const Register = lazy(() => import("./user-pages/Register"));
 const ForgotPass = lazy(() => import("./user-pages/ForgotPass"));
-const UserManagement = lazy(() => import("./dashboard/AdminUserManagement"));
 const UserManager = lazy(() => import("./admin/usermanager"));
 const UserProfile = lazy(() => import("./user-pages/UserProfile"));
 const Period = lazy(() => import("./dashboard/period"));
 
 const AppRoutes = () => {
-  const { Auth, Aperiod } = useSelector((state) => state.InputValue);
   console.log(
     localStorage.getItem("Auth"),
     localStorage.getItem("Aperiod"),

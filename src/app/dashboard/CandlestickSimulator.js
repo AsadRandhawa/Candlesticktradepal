@@ -173,7 +173,7 @@ export default function App() {
       : setBO2(AO1 / EO1 / MO1);
 
     !((CO1 / (EO1 - EO3) / MO1) * EO1 * MO1) ||
-    (CO1 / (EO1 - EO3) / MO1) * EO1 * MO1 == Infinity ||
+    (CO1 / (EO1 - EO3) / MO1) * EO1 * MO1 === Infinity ||
     (CO1 / (EO1 - EO3) / MO1) * EO1 * MO1 === -Infinity
       ? setDO1(0)
       : setDO1((CO1 / (EO1 - EO3) / MO1) * EO1 * MO1);

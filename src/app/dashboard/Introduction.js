@@ -1,31 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import axios from "../../axiosInstance";
 import "react-notifications/lib/notifications.css";
 import {
-  NotificationContainer,
   NotificationManager,
 } from "react-notifications";
 import "./card.css";
 import { useDispatch, useSelector } from "react-redux";
-import { InputAperiod, InputRPeriod } from "../../reducers/InputSlice";
+import { InputAperiod } from "../../reducers/InputSlice";
 
 const Introduction = () => {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const { Email } = useSelector((state) => state.InputValue);
-
-  const [Bflag, setBflag] = useState(false);
-  const [Sflag, setSflag] = useState(false);
-  const [Pflag, setPflag] = useState(false);
-  const [Prflag, setPrflag] = useState(false);
-
   const [Cperiod, setCperiod] = useState("");
   const [Rdata, setRdata] = useState(false);
   const iN2 = [

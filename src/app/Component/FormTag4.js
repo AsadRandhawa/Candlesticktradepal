@@ -18,7 +18,7 @@ const FormTag4 = (props) => {
 
     useEffect(() => {
         dispatch(InputCurrency(currency));
-    }, [currency]);
+    }, [currency, dispatch]);
 
     const renderSwitch = (param) => {
         switch (param) {

@@ -8,7 +8,6 @@ import { FaBars } from "react-icons/fa";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { Username } = useSelector((state) => state.InputValue);
-  const [mEnuI, setMenuI] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -19,7 +18,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    dispatch(InputMenuIcon(mEnuI));
+    dispatch(InputMenuIcon(true));
 
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 900);
@@ -30,7 +29,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [dispatch, mEnuI]);
+  }, [dispatch]);
 
   const styles = {
     navbar: {

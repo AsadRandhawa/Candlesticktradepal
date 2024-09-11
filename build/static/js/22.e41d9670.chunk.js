@@ -1,2 +1,0 @@
-(window.webpackJsonpreact=window.webpackJsonpreact||[]).push([[22],{522:function(e,a,n){"use strict";n.r(a);var t=n(0),w=n.n(t);a.default=()=>w.a.createElement(w.a.Fragment,null,w.a.createElement("h1",null,"www"))}}]);
-//# sourceMappingURL=22.e41d9670.chunk.js.map

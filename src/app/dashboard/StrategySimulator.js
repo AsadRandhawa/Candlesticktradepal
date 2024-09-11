@@ -19,7 +19,6 @@ import {
   InputLLL03,
 } from "../../reducers/InputSlice";
 import FormTag from "../Component/FormTag";
-import FormTag1 from "../Component/FormTag1";
 import GaugeChart from "react-gauge-chart";
 import ButtonTag from "../Component/ButtonTag";
 import FormTag4 from "../Component/FormTag4";

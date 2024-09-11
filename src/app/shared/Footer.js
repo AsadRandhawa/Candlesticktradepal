@@ -1,3 +1,4 @@
+import { Link } from '@mui/material';
 import React, { Component } from 'react';
 // import { Trans } from 'react-i18next';
 class Footer extends Component {
@@ -13,7 +14,7 @@ class Footer extends Component {
                 </h5>
               </div>
               <div className="float-right">
-                <a href={""} target="_blank" rel="noopener noreferrer">www.candlesticktradepal.com </a>
+                <Link to={""} target="_blank" rel="noopener noreferrer">www.candlesticktradepal.com </Link>
               </div>
 
             </div>

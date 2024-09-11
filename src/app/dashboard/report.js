@@ -1,37 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
 import axios from "../../axiosInstance";
 import "react-notifications/lib/notifications.css";
 import { NotificationManager } from "react-notifications";
 import "./card.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { InputAperiod } from "../../reducers/InputSlice";
 
 const Introduction = () => {
-  const history = useHistory();
-
   const dispatch = useDispatch();
-
-  const [Cperiod, setCperiod] = useState("");
-  const [open, setOpen] = React.useState(true);
-
   const getuserperiod = () => {
     axios
       .post("/api/users/getperiod", { email: localStorage.getItem("Email") })
       .then((res) => {
         if (res.data === "success") {
-          setOpen(false);
           NotificationManager.success(res.data, "Success");
           // dispatch(InputAperiod(1))
           localStorage.setItem("Aperiod", 1);
         } else if (res.data.period === Infinity) {
-          setOpen(false);
         } else {
           NotificationManager.warning(res.data, "Warning");
           console.log(res.data);
           dispatch(InputAperiod(0));
           localStorage.setItem("Aperiod", 0);
-          setCperiod(res.data);
         }
       })
       .catch((err) => {

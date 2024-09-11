@@ -1,43 +1,32 @@
 import axios from "../../axiosInstance";
-import React, { useState, useEffect } from "react";
-import {
-    Input,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogTitle,
-    DialogContent,
-    Stack,
-    TextField,
-} from "@mui/material";
-import moment from "moment";
+import React from "react";
 import { message } from "antd";
 
 const UserProfile = () => {
-    const billeddata = [
-        {
-            title: '1',
-            type: 'week',
-            price: "$5.99/wk"
-        },
-        {
-            title: '1',
-            type: 'Month',
-            price: "$0.00/mo"
-        }
-        , {
-            title: '1',
-            type: 'Year',
-            price: "$19.49/ye"
-        }
+    // const billeddata = [
+    //     {
+    //         title: '1',
+    //         type: 'week',
+    //         price: "$5.99/wk"
+    //     },
+    //     {
+    //         title: '1',
+    //         type: 'Month',
+    //         price: "$0.00/mo"
+    //     }
+    //     , {
+    //         title: '1',
+    //         type: 'Year',
+    //         price: "$19.49/ye"
+    //     }
 
-        , {
-            title: '1',
-            type: 'Lifetime',
-            price: "$23.0/8y"
-        }
+    //     , {
+    //         title: '1',
+    //         type: 'Lifetime',
+    //         price: "$23.0/8y"
+    //     }
 
-    ]
+    // ]
     const SetPeriod = (p) => () => {
         axios.post('/api/users/setperiod', { email: localStorage.getItem('email'), period: p }).then(res => {
             message.config({

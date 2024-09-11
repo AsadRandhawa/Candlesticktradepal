@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../axiosInstance";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { Button, message, Space } from "antd";
+import { message } from "antd";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
-import { useSelector, useDispatch } from 'react-redux'
-import {
-  InputAuth, InputUsername, InputEmail,
-  InputUserId, InputLevel, InputFirstName, InputLastname, InputAperiod
-} from '../../reducers/InputSlice'
-
-
 
 const eye = <FontAwesomeIcon icon={faEye} />;
 
 const Login = () => {
-
-  const dispatch = useDispatch();
-  const [messageApi, contextHolder] = message.useMessage();
   const [redirect, setRedirect] = useState(false);
   const [eMail, setEmail] = useState("");
   const [pAss, setPass] = useState("");
@@ -34,27 +24,26 @@ const Login = () => {
   const Login = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (!eMail || eMail === "" || eMail === undefined) {
-      message.warning("Invaild email")
+      message.warning("Invaild email");
     } else if (!pAss || pAss === undefined) {
-      message.warning("Invalid password")
+      message.warning("Invalid password");
     } else if (!emailRegex.test(eMail)) {
-      var arr = {
+      let arr = {
         username: eMail,
         eMail: "",
-        pAss: pAss
-      }
+        pAss: pAss,
+      };
 
-
-      
       axios.post("/api/users/login", arr).then((res) => {
         if (res.data === "User Not Found") {
-          message.warning(res.data)
+          message.warning(res.data);
         } else if (res.data === "Password Dont Matched") {
-          message.warning(res.data)
-        } else if (res.data === "Your period is finished. Please register again") {
-          message.warning(res.data)
-        }
-        else {
+          message.warning(res.data);
+        } else if (
+          res.data === "Your period is finished. Please register again"
+        ) {
+          message.warning(res.data);
+        } else {
           console.log(res.data);
           // dispatch(InputAuth(2));
           // dispatch(InputUsername(res.data.username));
@@ -67,7 +56,7 @@ const Login = () => {
           localStorage.setItem("Auth", 2);
           localStorage.setItem("Username", res.data.username);
           localStorage.setItem("Password", res.data.password);
-          console.log(localStorage.getItem("Password"))
+          console.log(localStorage.getItem("Password"));
           localStorage.setItem("Email", res.data.email);
           localStorage.setItem("UserId", res.data.userId);
           localStorage.setItem("FirstName", res.data.firstName);
@@ -75,31 +64,31 @@ const Login = () => {
           setRedirect(true);
           message.config({
             top: "60px",
-            duration: 2
-          })
+            duration: 2,
+          });
           message.success("Successfully login");
         }
-
       });
-    }
-    else if (eMail || pAss) {
-      var arr = {
+    } else if (eMail || pAss) {
+      let arr = {
         username: "",
         email: eMail,
-        pAss: pAss
-      }
+        pAss: pAss,
+      };
       console.log(arr);
       axios.post("/api/users/login", arr).then((res) => {
         console.log(res);
         if (res.data === "User Not Found") {
-          message.warning(res.data)
+          message.warning(res.data);
         } else if (res.data === "Password Dont Matched") {
-          message.warning("Your account or password is incorrect.If you don't remember your password, Forgot Password now")
-        }
-        else if (res.data === "Your period is finished. Please register again") {
-          message.warning(res.data)
-        }
-        else {
+          message.warning(
+            "Your account or password is incorrect.If you don't remember your password, Forgot Password now"
+          );
+        } else if (
+          res.data === "Your period is finished. Please register again"
+        ) {
+          message.warning(res.data);
+        } else {
           console.log(res.data);
           // dispatch(InputAuth(2));
           // dispatch(InputUsername(res.data.username));
@@ -113,18 +102,17 @@ const Login = () => {
           localStorage.setItem("Username", res.data.username);
           localStorage.setItem("Email", res.data.email);
           localStorage.setItem("Password", res.data.password);
-          console.log(localStorage.getItem("Password"))
+          console.log(localStorage.getItem("Password"));
           localStorage.setItem("UserId", res.data.userId);
           localStorage.setItem("FirstName", res.data.firstName);
           localStorage.setItem("Lastname", res.data.lastname);
           setRedirect(true);
           message.config({
             top: "60px",
-            duration: 2
-          })
+            duration: 2,
+          });
           message.success("Successfully login");
         }
-
       });
     }
   };
