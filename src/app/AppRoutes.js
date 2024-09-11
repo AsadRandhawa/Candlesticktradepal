@@ -26,8 +26,8 @@ const AppRoutes = () => {
     localStorage.getItem("level")
   );
   let Tlogin =
-    localStorage.getItem("Auth") == 2 ? (
-      localStorage.getItem("level") == 1 || localStorage.getItem("Aperiod") ? (
+    localStorage.getItem("Auth") === 2 ? (
+      localStorage.getItem("level") === 1 || localStorage.getItem("Aperiod") ? (
         <Switch>
           <Route exact path="/intro" component={Intro} />
           <Route

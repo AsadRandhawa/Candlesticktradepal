@@ -46,7 +46,7 @@ const Dashboard = () => {
   let num = Intl.NumberFormat("en-US");
   const [countI, setCountI] = useState(2);
   const handleKeyPress = (target) => {
-    if (target.charCode == 13) {
+    if (target.charCode === 13) {
       if (countI < 14) setCountI(countI + 1);
       else {
         setCountI(1);
@@ -61,7 +61,7 @@ const Dashboard = () => {
     AAAO1,
     AAAO2,
     EEEO1,
-    LLL05,
+    // LLL05,
     MMMO1,
     CCCO1,
     EEEO3,
@@ -169,22 +169,22 @@ const Dashboard = () => {
   const [IO2, setIO2] = useState(0);
   let IIIO1temp = IIIO1 === 0 ? "" : IIIO1;
   const [IO1, setIO1] = useState(IIIO1temp);
-  const handleIIIO1 = (evt) => {
-    let EIO1 = evt.target.value;
-    let MIO1 = Number(EIO1.replace(/,/g, ""));
-    // if (MIO1 <= 100000)
-    setIO1(parseFloat(MIO1));
-  };
+  // const handleIIIO1 = (evt) => {
+  //   let EIO1 = evt.target.value;
+  //   let MIO1 = Number(EIO1.replace(/,/g, ""));
+  //   // if (MIO1 <= 100000)
+  //   setIO1(parseFloat(MIO1));
+  // };
   //JJJO2 EO1*EO2*JO1*MO1
   const [JO2, setJO2] = useState(0);
   let JJJO1temp = JJJO1 === 0 ? "" : JJJO1;
   const [JO1, setJO1] = useState(JJJO1temp);
-  const handleJJJO1 = (evt) => {
-    let EJO1 = evt.target.value;
-    let MJO1 = Number(EJO1.replace(/,/g, ""));
-    // if (MJO1 <= 100000)
-    setJO1(MJO1);
-  };
+  // const handleJJJO1 = (evt) => {
+  //   let EJO1 = evt.target.value;
+  //   let MJO1 = Number(EJO1.replace(/,/g, ""));
+  //   // if (MJO1 <= 100000)
+  //   setJO1(MJO1);
+  // };
   //KKKO1 EO1-IO1*EO1
   const [KO1, setKO1] = useState(0);
   const [LO5, setLO5] = useState(0);
@@ -314,6 +314,7 @@ const Dashboard = () => {
       !(GO1 - EO3) || GO1 - EO3 === Infinity || GO1 - EO3 === -Infinity
       ? setLO3(0)
       : setLO3(GO1-EO3);
+      // eslint-disable-next-line
   });
   const PricePostionDelete = (p) => {
     if (p === 1) {

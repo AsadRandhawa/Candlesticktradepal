@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "../../axiosInstance";
 import "react-notifications/lib/notifications.css";
@@ -6,62 +6,60 @@ import {
   NotificationManager,
 } from "react-notifications";
 import "./card.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { InputAperiod } from "../../reducers/InputSlice";
 
 const Introduction = () => {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const [Cperiod, setCperiod] = useState("");
-  const [Rdata, setRdata] = useState(false);
-  const iN2 = [
-    "Set Predetermined Risks",
-    "Accurately Predict Stop Loss",
-    "Maximize Profit Potential",
-    "Determine Risk-Optimized Quantity",
-    "User Friendly Interface",
-  ];
-  const iN3 = [
-    "Simplify Complex Analysis",
-    "Analyze different Market Commodities",
-    "Back-Test Trading Scenarios",
-    "Customized Risk Parameters",
-    "Customized To Trade in 6 Major Currencies",
-  ];
-  const [open, setOpen] = React.useState(true);
-  const [selectedDiv, setSelectedDiv] = useState(null);
+  // const [Cperiod, setCperiod] = useState("");
+  // const [Rdata, setRdata] = useState(false);
+  // const iN2 = [
+  //   "Set Predetermined Risks",
+  //   "Accurately Predict Stop Loss",
+  //   "Maximize Profit Potential",
+  //   "Determine Risk-Optimized Quantity",
+  //   "User Friendly Interface",
+  // ];
+  // const iN3 = [
+  //   "Simplify Complex Analysis",
+  //   "Analyze different Market Commodities",
+  //   "Back-Test Trading Scenarios",
+  //   "Customized Risk Parameters",
+  //   "Customized To Trade in 6 Major Currencies",
+  // ];
+  // const [open, setOpen] = React.useState(true);
+  // const [selectedDiv, setSelectedDiv] = useState(null);
 
-  const Handle = () => {
-    localStorage.removeItem("Auth");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("level");
-    localStorage.removeItem("Username");
-    localStorage.removeItem("Email");
-    localStorage.removeItem("UserId");
-    localStorage.removeItem("FirstName");
-    localStorage.removeItem("Lastname");
-    localStorage.removeItem("Aperiod");
-    window.location = "/login";
-  };
+  // const Handle = () => {
+  //   localStorage.removeItem("Auth");
+  //   localStorage.removeItem("userId");
+  //   localStorage.removeItem("level");
+  //   localStorage.removeItem("Username");
+  //   localStorage.removeItem("Email");
+  //   localStorage.removeItem("UserId");
+  //   localStorage.removeItem("FirstName");
+  //   localStorage.removeItem("Lastname");
+  //   localStorage.removeItem("Aperiod");
+  //   window.location = "/login";
+  // };
 
   const getuserperiod = () => {
     axios
       .post("/api/users/getperiod", { email: localStorage.getItem("Email") })
       .then((res) => {
         if (res.data === "success") {
-          setOpen(false);
           NotificationManager.success(res.data, "Success");
           // dispatch(InputAperiod(1))
           localStorage.setItem("Aperiod", 1);
         } else if (res.data.period === Infinity) {
-          setOpen(false);
         } else {
           NotificationManager.warning(res.data, "Warning");
           console.log(res.data);
           dispatch(InputAperiod(0));
           localStorage.setItem("Aperiod", 0);
-          setCperiod(res.data);
+          // setCperiod(res.data);
         }
       })
       .catch((err) => {
@@ -69,51 +67,51 @@ const Introduction = () => {
       });
   };
 
-  const SetPeriod = () => {
-    var period;
-    if (selectedDiv == 0) {
-      period = 7;
-    } else if (selectedDiv == 1) {
-      period = 30;
-    } else if (selectedDiv == 2) {
-      period = 365;
-    } else if (selectedDiv == 3) {
-      period = 99999999999;
-    } else if (!selectedDiv) {
-      NotificationManager.warning("Please choose period", "warning");
-    }
+  // const SetPeriod = () => {
+  //   var period;
+  //   if (selectedDiv == 0) {
+  //     period = 7;
+  //   } else if (selectedDiv == 1) {
+  //     period = 30;
+  //   } else if (selectedDiv == 2) {
+  //     period = 365;
+  //   } else if (selectedDiv == 3) {
+  //     period = 99999999999;
+  //   } else if (!selectedDiv) {
+  //     NotificationManager.warning("Please choose period", "warning");
+  //   }
 
-    axios
-      .post("/api/users/requestperiod", {
-        email: localStorage.getItem("Email"),
-        Rperiod: period,
-      })
-      .then((res) => {
-        console.log(res.data);
-        setRdata(true);
-        // setOpen(false);
-        // setRdata()
-        NotificationManager.success(res.data, "Success");
-      })
-      .catch((err) => {
-        console.log(err.data);
-      });
-  };
+  //   axios
+  //     .post("/api/users/requestperiod", {
+  //       email: localStorage.getItem("Email"),
+  //       Rperiod: period,
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       // setRdata(true);
+  //       // setOpen(false);
+  //       // setRdata()
+  //       NotificationManager.success(res.data, "Success");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.data);
+  //     });
+  // };
 
-  const handleClick = (divIndex) => {
-    setSelectedDiv(divIndex);
-  };
+  // const handleClick = (divIndex) => {
+  //   setSelectedDiv(divIndex);
+  // };
 
-  const divStyle = {};
+  // const divStyle = {};
 
-  const selectedDivStyle = {
-    ...divStyle,
-    border: "1px solid var(--col)",
-    backgroundColor: "#26262680",
-    boxShadow: "0 0 32px #171717",
-    transform: "translateY(-16px) scale(1.02)",
-    transition: "all 0.5s ease",
-  };
+  // const selectedDivStyle = {
+  //   ...divStyle,
+  //   border: "1px solid var(--col)",
+  //   backgroundColor: "#26262680",
+  //   boxShadow: "0 0 32px #171717",
+  //   transform: "translateY(-16px) scale(1.02)",
+  //   transition: "all 0.5s ease",
+  // };
 
   useEffect(() => {
     getuserperiod();

@@ -245,8 +245,8 @@ export default function App() {
     !(GO2 / CO1) || GO2 / CO1 === Infinity || GO2 / CO1 === -Infinity
       ? setHO3(0)
       : setHO3(GO2 / CO1);
+    // eslint-disable-next-line
   });
-
   const SummaryDelete = () => {
     setGO1("");
     setEO2("");

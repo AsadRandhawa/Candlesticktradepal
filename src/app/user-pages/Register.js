@@ -10,7 +10,6 @@ import { message } from "antd";
 import "react-notifications/lib/notifications.css";
 import {
   NotificationContainer,
-  NotificationManager,
 } from "react-notifications";
 import countryList from 'react-select-country-list'
 import Select from 'react-select'

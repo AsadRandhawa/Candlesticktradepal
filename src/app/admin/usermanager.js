@@ -41,7 +41,6 @@ const UserManager = () => {
 
   useEffect(() => {
     GetAllUsers();
-    console.log("ss: " + Rperiod)
   }, []);
 
   const GetAllUsers = () => {
