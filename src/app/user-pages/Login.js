@@ -44,7 +44,6 @@ const Login = () => {
         ) {
           message.warning(res.data);
         } else {
-          console.log(res.data);
           // dispatch(InputAuth(2));
           // dispatch(InputUsername(res.data.username));
           // dispatch(InputEmail(res.data.email));
@@ -56,7 +55,6 @@ const Login = () => {
           localStorage.setItem("Auth", 2);
           localStorage.setItem("Username", res.data.username);
           localStorage.setItem("Password", res.data.password);
-          console.log(localStorage.getItem("Password"));
           localStorage.setItem("Email", res.data.email);
           localStorage.setItem("UserId", res.data.userId);
           localStorage.setItem("FirstName", res.data.firstName);
@@ -75,9 +73,7 @@ const Login = () => {
         email: eMail,
         pAss: pAss,
       };
-      console.log(arr);
       axios.post("/api/users/login", arr).then((res) => {
-        console.log(res);
         if (res.data === "User Not Found") {
           message.warning(res.data);
         } else if (res.data === "Password Dont Matched") {
@@ -89,7 +85,6 @@ const Login = () => {
         ) {
           message.warning(res.data);
         } else {
-          console.log(res.data);
           // dispatch(InputAuth(2));
           // dispatch(InputUsername(res.data.username));
           // dispatch(InputEmail(res.data.email));
@@ -102,7 +97,6 @@ const Login = () => {
           localStorage.setItem("Username", res.data.username);
           localStorage.setItem("Email", res.data.email);
           localStorage.setItem("Password", res.data.password);
-          console.log(localStorage.getItem("Password"));
           localStorage.setItem("UserId", res.data.userId);
           localStorage.setItem("FirstName", res.data.firstName);
           localStorage.setItem("Lastname", res.data.lastname);

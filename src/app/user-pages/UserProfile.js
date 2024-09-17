@@ -29,12 +29,10 @@ const UserProfile = () => {
 
   };
   useEffect(() => {
-    console.log(localStorage.getItem("UserId"));
     const user = {
       userId: localStorage.getItem("UserId"),
     };
     axios.post("/api/users/getuser", user).then((res) => {
-      console.log(res.data);
       setData(res.data);
       setModaldata(res.data)
       let dead = 0;
@@ -67,7 +65,6 @@ const UserProfile = () => {
       setPeriod(dead);
     });
   }, []);
-  console.log("period: ", period);
   const handleSubmit = () => {
     setAddperiod();
     // const date = Number(period) + Number(addperiod);
@@ -86,7 +83,6 @@ const UserProfile = () => {
       localStorage.setItem("Password", passwords.newpassword);
     }
     axios.post("/api/users/updateusers", newUser).then((res) => {
-      console.log(res.data);
       if (res.data) {
         setData(res.data)
         message.success("Success");

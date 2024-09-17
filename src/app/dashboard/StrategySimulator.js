@@ -11,12 +11,15 @@ import {
   InputEEEO2,
   InputCCCO2,
   InputGGGO1,
-  InputIIIO1,
-  InputJJJO1,
   InputLLL05,
   InputLLL01,
   InputLLL02,
   InputLLL03,
+  InputFFF01,
+  InputGGGO2,
+  InputHHH03,
+  InputHHH02,
+  InputHHH01,
 } from "../../reducers/InputSlice";
 import FormTag from "../Component/FormTag";
 import GaugeChart from "react-gauge-chart";
@@ -28,20 +31,13 @@ import { setCurrency } from "../../reducers/counterSlice";
 import { setToggle } from "../../reducers/toggleSlice";
 
 const Dashboard = () => {
-  // const [isSCToggleOn, setIsSCToggleOn] = useState(false);
-  // const [isOFToggleOn, setIsOFToggleOn] = useState(false);
-
   const CurrencySelect = useSelector((state) => state.currency.currency);
   const isSCToggleOn = useSelector((state) => state.toggle.toggle);
 
   const handleSCToggle = () => {
     dispatch(setToggle(!isSCToggleOn));
-        setMO1(!isSCToggleOn ? "100" : "1"); // Change Ticker value based on toggle state
+    setMO1(!isSCToggleOn ? "100" : "1");
   };
-
-  // const handleOFToggle = () => {
-  //   setIsOFToggleOn(!isOFToggleOn);
-  // };
 
   let num = Intl.NumberFormat("en-US");
   const [countI, setCountI] = useState(2);
@@ -61,143 +57,112 @@ const Dashboard = () => {
     AAAO1,
     AAAO2,
     EEEO1,
-    // LLL05,
     MMMO1,
     CCCO1,
     EEEO3,
     EEEO2,
     CCCO2,
-    IIIO1,
-    JJJO1,
     GGGO1,
     Currency,
   } = useSelector((state) => state.InputValue);
   const dispatch = useDispatch();
-  //BBBO1 AO1*AO2
+
   let AAAO1temp = AAAO1 === 0 ? "" : AAAO1;
   const [AO1, setAO1] = useState(AAAO1temp);
   let AAAO2temp = AAAO2 === 0 ? "" : AAAO2;
   const [AO2, setAO2] = useState(AAAO2temp);
   const [BO1, setBO1] = useState(0);
+
   const handleAAAO1 = (evt) => {
     let EAO1 = evt.target.value;
     let MAO1 = Number(EAO1.replace(/,/g, ""));
-    // if (MAO1 <= 10000000)
     setAO1(parseFloat(MAO1));
   };
+
   const handleAAAO2 = (evt) => {
     let EAO2 = evt.target.value;
     let MAO2 = Number(EAO2.replace(/,/g, ""));
-    // if (MAO2 <= 100000)
     setAO2(parseFloat(MAO2));
   };
-  //BBBO2 BO1/EO1/MO1
+
   const [BO2, setBO2] = useState(0);
   let EEEO1temp = EEEO1 === 0 ? "" : EEEO1;
   const [EO1, setEO1] = useState(EEEO1temp);
-  // let MMMO1temp = (MMMO1 === 1) ? "" : MMMO1;
   const [MO1, setMO1] = useState(MMMO1);
+
   const handleMMMO1 = (evt) => {
     let EMO1 = evt.target.value;
     let MMO2 = Number(EMO1.replace(/,/g, ""));
-    // if (MMO2 <= 1000)
     setMO1(parseFloat(MMO2));
   };
+
   const handleEEEO1 = (evt) => {
     let EEO1 = evt.target.value;
     let MEO1 = Number(EEO1.replace(/,/g, ""));
-    // if (MEO1 <= 100000)
     setEO1(parseFloat(MEO1));
   };
-  //DDDO1 (CO1/(EO1-EO3)/MO1)*EO1*MO1
+
   const [DO1, setDO1] = useState(0);
   let CCCO1temp = CCCO1 === 0 ? "" : CCCO1;
   const [CO1, setCO1] = useState(CCCO1temp);
   let EEEO3temp = EEEO3 === 0 ? "" : EEEO3;
   const [EO3, setEO3] = useState(EEEO3temp);
+
   const handleCCCO1 = (evt) => {
     let ECO1 = evt.target.value;
     let MCO1 = Number(ECO1.replace(/,/g, ""));
-    // if (MCO1 <= 100000)
     setCO1(parseFloat(MCO1));
   };
   const handleEEEO3 = (evt) => {
     let EEO3 = evt.target.value;
     let MEO3 = Number(EEO3.replace(/,/g, ""));
-    // if (MEO3 <= 100000)
     setEO3(parseFloat(MEO3));
   };
-  //DDDO2 (CO1/(EO1-EO3)/MO1)
+
   const [DO2, setDO2] = useState(0);
-  //HHHO2 EO1*EO2*MO1
   const [HO2, setHO2] = useState(0);
   let EEEO2temp = EEEO2 === 0 ? "" : EEEO2;
   const [EO2, setEO2] = useState(EEEO2temp);
+
   const handleEEEO2 = (evt) => {
     let EEO2 = evt.target.value;
     let MEO2 = Number(EEO2.replace(/,/g, ""));
-    // if (MEO2 <= 100000)
     setEO2(parseFloat(MEO2));
   };
-  //FFFO1 HO2-(EO3/EO1*HO2)
+
   const [FO1, setFO1] = useState(0);
-  //Take Profit EO1-(CO1/EO2)/MO1
   const [FO2, setFO2] = useState(0);
-  //FFFO3 EO1+(EO1*CO2/HO2)
   const [FO3, setFO3] = useState(0);
   let CCCO2temp = CCCO2 === 0 ? "" : CCCO2;
   const [CO2, setCO2] = useState(CCCO2temp);
+
   const handleCCCO2 = (evt) => {
     let ECO2 = evt.target.value;
     let MCO2 = Number(ECO2.replace(/,/g, ""));
-    // if (MCO2 <= 100000)
     setCO2(parseFloat(MCO2));
   };
-  //GGGO2 (EO2*GO1-EO2*EO1)*MO1
+
   const [GO2, setGO2] = useState(0);
   let GGGO1temp = GGGO1 === 0 ? "" : GGGO1;
   const [GO1, setGO1] = useState(GGGO1temp);
   const handleGGGO1 = (evt) => {
     let EGO1 = evt.target.value;
     let MGO1 = Number(EGO1.replace(/,/g, ""));
-    // if (MGO1 <= 100000)
     setGO1(parseFloat(MGO1));
   };
   //HHHO1 GO2/CO1
   const [HO1, setHO1] = useState(0);
-  //IIIO2 HO2*IO1*0.01*-1
-  const [IO2, setIO2] = useState(0);
-  let IIIO1temp = IIIO1 === 0 ? "" : IIIO1;
-  const [IO1, setIO1] = useState(IIIO1temp);
-  // const handleIIIO1 = (evt) => {
-  //   let EIO1 = evt.target.value;
-  //   let MIO1 = Number(EIO1.replace(/,/g, ""));
-  //   // if (MIO1 <= 100000)
-  //   setIO1(parseFloat(MIO1));
-  // };
-  //JJJO2 EO1*EO2*JO1*MO1
-  const [JO2, setJO2] = useState(0);
-  let JJJO1temp = JJJO1 === 0 ? "" : JJJO1;
-  const [JO1, setJO1] = useState(JJJO1temp);
-  // const handleJJJO1 = (evt) => {
-  //   let EJO1 = evt.target.value;
-  //   let MJO1 = Number(EJO1.replace(/,/g, ""));
-  //   // if (MJO1 <= 100000)
-  //   setJO1(MJO1);
-  // };
-  //KKKO1 EO1-IO1*EO1
-  const [KO1, setKO1] = useState(0);
   const [LO5, setLO5] = useState(0);
   const [LO1, setLO1] = useState(0);
   const [LO2, setLO2] = useState(0);
   const [LO3, setLO3] = useState(0);
-  //KKKO2 EO1+(EO1*JO2/HO2)
-  const [KO2, setKO2] = useState(0);
-  //HHHO3 GO2/CO1
   const [HO3, setHO3] = useState(0);
   useEffect(() => {
-    console.log(localStorage.getItem("username"));
-    // Update the document title using the browser API
+    dispatch(InputFFF01(FO1));
+    dispatch(InputHHH01(HO1));
+    dispatch(InputHHH02(HO2));
+    dispatch(InputHHH03(HO3));
+    dispatch(InputGGGO2(GO2));
     dispatch(InputAAAO1(AO1));
     dispatch(InputAAAO2(AO2));
     dispatch(InputEEEO1(EO1));
@@ -211,13 +176,12 @@ const Dashboard = () => {
     dispatch(InputEEEO2(EO2));
     dispatch(InputCCCO2(CO2));
     dispatch(InputGGGO1(GO1));
-    dispatch(InputIIIO1(IO1));
-    dispatch(InputJJJO1(JO1));
+
     !(AO1 * 0.01 * AO2) ||
     AO1 * 0.01 * AO2 === Infinity ||
     AO1 * 0.01 * AO2 === -Infinity
       ? setBO1(0)
-      : setBO1((AO1 * AO2)/100);
+      : setBO1((AO1 * AO2) / 100);
 
     !(AO1 / EO1 / MO1) ||
     AO1 / EO1 / MO1 === Infinity ||
@@ -247,19 +211,19 @@ const Dashboard = () => {
     HO2 - (EO3 / EO1) * HO2 === Infinity ||
     HO2 - (EO3 / EO1) * HO2 === -Infinity
       ? setFO1(0)
-      : setFO1(HO2 - (EO3 / EO1 * HO2));
+      : setFO1(HO2 - (EO3 / EO1) * HO2);
 
     !(EO1 - CO1 / EO2 / MO1) ||
     EO1 - CO1 / EO2 / MO1 === Infinity ||
     EO1 - CO1 / EO2 / MO1 === -Infinity
       ? setFO2(0)
-      : setFO2(EO1 - (CO1 / EO2) / MO1);
+      : setFO2(EO1 - CO1 / EO2 / MO1);
 
     !(EO1 * 1 + (EO1 * CO2) / HO2) ||
     EO1 * 1 + (EO1 * CO2) / HO2 === Infinity ||
     EO1 * 1 + (EO1 * CO2) / HO2 === -Infinity
       ? setFO3(0)
-      : setFO3(EO1+(EO1 * CO2/ HO2));
+      : setFO3(EO1 + (EO1 * CO2) / HO2);
 
     !((EO2 * GO1 - EO2 * EO1) * MO1) ||
     (EO2 * GO1 - EO2 * EO1) * MO1 === Infinity ||
@@ -269,83 +233,78 @@ const Dashboard = () => {
 
     !(GO2 / HO2) || GO2 / HO2 === Infinity || GO2 / HO2 === -Infinity
       ? setHO1(0)
-      : setHO1((GO2 / HO2)*100);
-
-    !(HO2 * IO1 * 0.01 * -1) ||
-    HO2 * IO1 * 0.01 * -1 === Infinity ||
-    HO2 * IO1 * 0.01 * -1 === -Infinity
-      ? setIO2(0)
-      : setIO2(HO2 * IO1 * -1);
-
-    !(EO1 * EO2 * JO1 * 0.01 * MO1) ||
-    EO1 * EO2 * JO1 * 0.01 * MO1 === Infinity ||
-    EO1 * EO2 * JO1 * 0.01 * MO1 === -Infinity
-      ? setJO2(0)
-      : setJO2(EO1 * EO2 * JO1 * MO1);
-
-    !(EO1 - IO1 * 0.01 * EO1) ||
-    EO1 - IO1 * 0.01 * EO1 === Infinity ||
-    EO1 - IO1 * 0.01 * EO1 === -Infinity
-      ? setKO1(0)
-      : setKO1(EO1 - IO1 * EO1);
-
-    !(EO1 * 1 + (EO1 * JO2) / HO2) ||
-    EO1 * 1 + (EO1 * JO2) / HO2 === Infinity ||
-    EO1 * 1 + (EO1 * JO2) / HO2 === -Infinity
-      ? setKO2(0)
-      : setKO2(EO1+ (EO1 * JO2 / HO2));
+      : setHO1((GO2 / HO2) * 100);
 
     !(GO2 / CO1) || GO2 / CO1 === Infinity || GO2 / CO1 === -Infinity
       ? setHO3(0)
       : setHO3(GO2 / CO1);
-    
-      !(GO1 / EO1) || GO1 / EO1 === Infinity || GO2 / EO1 === -Infinity
-      ? setLO5(0)
-      : setLO5((GO1 - EO1)*MO1);
 
-      !(EO3 - EO1) || EO3 - EO1 === Infinity || EO3 - EO1 === -Infinity
+    !(GO1 / EO1) || GO1 / EO1 === Infinity || GO2 / EO1 === -Infinity
+      ? setLO5(0)
+      : setLO5((GO1 - EO1) * MO1);
+
+    !(EO3 - EO1) || EO3 - EO1 === Infinity || EO3 - EO1 === -Infinity
       ? setLO1(0)
-      : setLO1(EO3-EO1);
-      
-      !(GO1 - EO1) || GO1 - EO1 === Infinity || GO1 - EO1 === -Infinity
+      : setLO1(EO3 - EO1);
+
+    !(GO1 - EO1) || GO1 - EO1 === Infinity || GO1 - EO1 === -Infinity
       ? setLO2(0)
-      : setLO2(GO1-EO1);
-      
-      !(GO1 - EO3) || GO1 - EO3 === Infinity || GO1 - EO3 === -Infinity
+      : setLO2(GO1 - EO1);
+
+    !(GO1 - EO3) || GO1 - EO3 === Infinity || GO1 - EO3 === -Infinity
       ? setLO3(0)
-      : setLO3(GO1-EO3);
-      // eslint-disable-next-line
-  });
+      : setLO3(GO1 - EO3);
+  }, [
+    dispatch,
+    FO1,
+    HO1,
+    HO2,
+    HO3,
+    GO2,
+    AO1,
+    AO2,
+    EO1,
+    MO1,
+    CO1,
+    LO5,
+    LO1,
+    LO2,
+    LO3,
+    EO3,
+    EO2,
+    CO2,
+    GO1,
+  ]);
   const PricePostionDelete = (p) => {
-    if (p === 1) {
-      setEO1("");
-      setEO2("");
-      setEO3("");
-      setGO1("");
-    } else if (p === 2) {
-      setEO1("");
-      setEO2("");
-      setEO3("");
-      setGO1("");
-    }
+    setEO1("");
+    setEO2("");
+    setEO3("");
+    setGO1("");
   };
 
   const CurrencyChange = (e) => {
     dispatch(setCurrency(e.target.value));
   };
 
-  const options = ["$", "£", "฿", "€", "¥", "₣", "₹", '₦', "₩", "R", "₡", "د.إ"].map((item, index) => (
+  const options = [
+    "$",
+    "£",
+    "฿",
+    "€",
+    "¥",
+    "₣",
+    "₹",
+    "₦",
+    "₩",
+    "R",
+    "₡",
+    "د.إ",
+  ].map((item, index) => (
     <option key={index} value={item}>
       {item}
     </option>
   ));
 
-  const menuTitleStyle = {
-    fontSize: "24px",
-    marginBottom: "20px",
-    textAlign: "center",
-    color: "#FFFFFF", // White color for title
-  };
   const fieldStyle = {
     display: "flex",
     justifyContent: "space-between",
@@ -360,44 +319,79 @@ const Dashboard = () => {
     borderRadius: "8px",
     marginBottom: "10px",
   };
-  console.log(DO2.toFixed(2))
   const fields = [
     {
-      title: "Share / contracts Quantity",
+      title: "Recommended Quantity",
       color: "#1EC2EC",
-      value: Currency + Math.round(DO2 * 10) / 10,
+      value: parseFloat(
+        (Math.round(DO2 * 10) / 10).toFixed(2)
+      ).toLocaleString(),
       centered: true,
       marginBottom: "0px",
     },
-    { title: "Projected Loss", value: Currency + Math.round(FO1 * 10) / 10, color: "#FF0000" },
+    {
+      title: "Projected Loss",
+      value:
+        Currency +
+        parseFloat((Math.round(FO1 * 100) / 100).toFixed(2)).toLocaleString(),
+      color: "#FF0000",
+    },
     {
       title: "Stop Loss",
-      value: Currency + FO2.toFixed(2),
+      value: Currency + parseFloat(FO2.toFixed(2)).toLocaleString(),
       color: "#FF0000",
       marginBottom: "0px",
     },
-    { title: "Projected Profit", value: Currency + Math.round(GO2 * 10) / 10, color: "#67C839" },
+    {
+      title: "Projected Profit",
+      value:
+        Currency +
+        parseFloat((Math.round(GO2 * 100) / 100).toFixed(2)).toLocaleString(),
+      color: "#67C839",
+    },
     {
       title: "Take Profit",
-      value: Currency + FO3.toFixed(2),
+      value: Currency + parseFloat(FO3.toFixed(2)).toLocaleString(),
       color: "#67C839",
       marginBottom: "0px",
     },
-    { title: "Actual Capital", value: Currency + Math.round(HO2 * 10) / 10, color: "#ED8638" },
-    { title: "Maximum Capital", value: Currency + DO1.toFixed(2), color: "#ED8638" },
-    { title: "Risk-Reward Ratio", value: HO3.toFixed(2)+'x', color: "#9191A6" },
+    {
+      title: "Actual Capital",
+      value:
+        Currency +
+        parseFloat((Math.round(HO2 * 100) / 100).toFixed(2)).toLocaleString(),
+      color: "#ED8638",
+    },
+    {
+      title: "Maximum Capital",
+      value: Currency + parseFloat(DO1.toFixed(2)).toLocaleString(),
+      color: "#ED8638",
+    },
+    {
+      title: "Risk-Reward Ratio",
+      value: parseFloat(HO3.toFixed(2)).toLocaleString() + "x",
+      color: "#9191A6",
+    },
     {
       title: "Investment Return",
-      value:  HO1.toFixed(2)+'%',
+      value: parseFloat(HO1.toFixed(2)).toLocaleString() + "%",
       color: "#6FD738",
       marginBottom: "0px",
     },
-    { title: "Stop Loss Range", value: Currency + LO1.toFixed(2), color: "#FFFFFF" },
-    { title: "Profit Taking Range", value: Currency + LO2.toFixed(2), color: "#FFFFFF" },
+    {
+      title: "Stop Loss Range",
+      value: Currency + Math.abs(parseFloat(LO1.toFixed(2)).toLocaleString()),
+      color: "#9191A6",
+    },
+    {
+      title: "Profit Taking Range",
+      value: Currency + parseFloat(LO2.toFixed(2)).toLocaleString(),
+      color: "#9191A6",
+    },
     {
       title: "Trade Range",
-      value: Currency + LO3.toFixed(2),
-      color: "#FFFFFF",
+      value: Currency + parseFloat(LO3.toFixed(2)).toLocaleString(),
+      color: "#9191A6",
       marginBottom: "20px",
     },
   ];
@@ -458,6 +452,41 @@ const Dashboard = () => {
 
     return cards;
   };
+  const [state, setState] = useState(false);
+
+  useEffect(() => {
+    setState({
+      C13: EO1,
+      C14: EO2,
+      C15: EO3,
+      C16: FO1,
+      C19: GO1,
+      C20: GO2,
+      C22: HO2,
+      C23: HO3,
+      C21: HO1,
+      C32: LO3,
+    });
+  }, [EO1, EO2, EO3, FO1, GO1, GO2, HO2, HO3, HO1, LO3]);
+
+  const saveStateToLocalStorage = () => {
+    // if (EO1 && EO2 && EO3 && GO1 && GO2 && HO2 && HO3 && HO1 && LO3 & MO1 ) {
+    // Check if `state` has any properties
+    let data = [];
+    const savedState = localStorage.getItem("myComponentStateArray");
+
+    if (savedState) {
+      data = JSON.parse(savedState); // Parse the saved JSON string back into an array
+    }
+
+    // Add the new state to the data array
+    data.push(state);
+
+    // Save the updated array to localStorage
+    localStorage.setItem("myComponentStateArray", JSON.stringify(data));
+    // } else {
+    // alert("Enter Values ");
+  };
 
   return (
     <div>
@@ -467,10 +496,10 @@ const Dashboard = () => {
       <div className="row">
         {/* 1 */}
         <div className="col-12 col-lg-6 col-xl-3 ">
-          <div>
-          <h4 className="text-center" style={{ color: "#CBCBE2" }}>
-          Trade Metrics
-                  </h4>
+          <div style={{ backgroundColor: "#27283a", paddingTop: "15px" }}>
+            <h4 className="text-center" style={{ color: "#CBCBE2" }}>
+              Trade Metrics
+            </h4>
             {renderFieldsInCards()}
           </div>
         </div>
@@ -481,14 +510,14 @@ const Dashboard = () => {
               <div className="card" style={{ borderRadius: "8px" }}>
                 <div className="card-body">
                   <h4 className="text-center" style={{ color: "#CBCBE2" }}>
-                    Portfolio Strength
+                    Suggested Risk Per Trade
                   </h4>
                   <div className="row text-center mt-3 gap-5">
                     <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6">
                       <FormTag
                         color="green"
                         title="Portfolio Risk "
-                        value={Currency + " " + num.format(BO1.toFixed(2))}
+                        value={Currency + " " + num.format(BO1)}
                       />
                     </div>
                     <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6 my-3 my-sm-0">
@@ -597,10 +626,12 @@ const Dashboard = () => {
                       />
                     </div>
                     <div className="col-12 col-sm-6 d-flex align-items-center mt-4 justify-content-center">
+                    Market
                       <div
                         className="toggle-group"
                         style={{ padding: 10, margin: 20 }}
                       >
+                       
                         <label
                           className="form-label me-2"
                           style={{ marginRight: "10px" }}
@@ -626,104 +657,6 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="row mb-3">
-            <div className="col-sm-12">
-              <div
-                className="card"
-                style={{ backgroundColor: "#27283A", borderRadius: "8px" }}
-              >
-                <div className="card-body">
-                  <h4
-                    className="card-title"
-                    style={{ color: "#FFFFFF", textAlign: "center" }}
-                  >
-                    Summary Trade Plan
-                  </h4>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    Buy{" "}
-                    <span style={{ color: "#FFCC00", fontWeight: "bold" }}>
-                      {EO2 || 0}
-                    </span>{" "}
-                    position size at{" "}
-                    <span style={{ color: "#FFCC00", fontWeight: "bold" }}>
-                      {" " + Currency + (EO1 || 0) + " "}
-                    </span>
-                   
-                  </p>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                  Close Trade at{" "}
-                    <span style={{ color: "rgb(255, 62, 29)", fontWeight: "bold" }}>
-                      {" " + Currency + (GO1 || 0) + " "}
-                    </span>
-  
-                    For a
-                    <span style={{ color: "rgb(255, 62, 29)", fontWeight: "bold" }}>
-                      {" " + Currency + (FO1.toFixed(2) || 0) + " "}
-                    </span>
-                    loss
-                  </p>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    Take profit at{" "}
-                    <span style={{ color: "#00FF00", fontWeight: "bold" }}>
-                    {" " + Currency + (GO1 || 0) + " "}
-                    </span>{" "}
-                    for a{" "}
-                    <span style={{ color: "#00FF00", fontWeight: "bold" }}>
-                    {" " + Currency + (GO2.toFixed(2) || 0) + " "}
-                    </span>{" "}
-                    gain.
-                  </p>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    Total cost of investment is {" "}
-                    <span style={{ color: "rgb(30, 194, 236)", fontWeight: "bold" }}>
-                    {" " + Currency + (HO2.toFixed(2) || 0) + " "}
-                    </span>{" "}
-                  </p>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    This plan has a {" "}
-                    <span style={{ color: "rgb(30, 194, 236)", fontWeight: "bold" }}>
-                    {" "  + (HO1.toFixed(2) || 0)+"%" + " "}
-                    </span>{" "}
-                    return on investment and a {" "}
-                    <span style={{ color: "rgb(30, 194, 236)", fontWeight: "bold" }}>
-                    {" "  + (HO3.toFixed(2) || 0) + " "}
-                    </span>{" "}
-                    X risk-reward ratio.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* 3 */}
@@ -735,18 +668,55 @@ const Dashboard = () => {
                   <h4 className="text-center" style={{ color: "#CBCBE2" }}>
                     Trade Performance
                   </h4>
-                  <h6 style={{ color: "#7071A4" }}>
-                    P/L Per Share{" "}
-                    <span style={{ color: "rgb(103, 200, 57)" }}>
-                      {Currency + " " + num.format(LO5.toFixed(2))}
-                    </span>
-                  </h6>
-                  <h6 style={{ color: "#7071A4" }}>
-                    Rol{" "}
-                    <span style={{ color: "#CBCBE2" }}>
-                      {HO1.toFixed(2)} %
-                    </span>
-                  </h6>
+                  <div className="row">
+                    <div className="col-6">
+                      <h6 style={{ color: "#7071A4" }}>
+                        P/L Per Share{" "}
+                        <span style={{ color: "rgb(103, 200, 57)" }}>
+                          {Currency + " " + num.format(LO5.toFixed(2))}
+                        </span>
+                      </h6>
+                      <h6 style={{ color: "#7071A4" }}>
+                        Rol{" "}
+                        <span style={{ color: "#CBCBE2" }}>
+                          {HO1.toFixed(2)} %
+                        </span>
+                      </h6>
+                    </div>
+                    <div className="col-6">
+                      <p style={{ textAlign: "center" }}>
+                        {HO2 !== 0 &&
+                        HO2 !== null &&
+                        DO1 !== 0 &&
+                        DO1 !== null ? (
+                          <>
+                            {HO2 > DO1 ? (
+                              <span style={{ color: "#FF4C4C" }}>
+                                Risk Alert: Risk Overexposure!
+                              </span>
+                            ) : (
+                              ""
+                            )}
+
+                            {DO1 >= HO2 ? (
+                              <span
+                                style={{
+                                  color: "#00FF00",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Risk Alert: Safe to Trade!
+                              </span>
+                            ) : (
+                              ""
+                            )}
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </p>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-sm-12">
                       <div
@@ -760,8 +730,9 @@ const Dashboard = () => {
                           hideText
                           textColor="#FFFF"
                           colors={["#FF0000", "#0A5D00", "#0EFF00"]}
-                          percent={HO1 ? HO1.toFixed(2) : 0}
-                          arcsLength={[0.15, 0.35, 0.5]}
+                          percent={HO1 ? Math.min(HO1 / 1, 1).toFixed(2) : 0}
+                          arcsLength={[0.02, 0.08, 0.09]}
+                          arcPadding={0.05}
                         />
                       </div>
                       <h6 className="text-center" style={{ color: "#CBCBE2" }}>
@@ -852,11 +823,11 @@ const Dashboard = () => {
                       />
                     </div>
                     <div className="col-6">
-                      <Link to="detailed_report1">
+                      <Link to="report" onClick={saveStateToLocalStorage}>
                         <ButtonTag
                           color="input_green"
                           title="Price"
-                          value="Show Plan"
+                          value="Summary Report"
                         />
                       </Link>
                     </div>
@@ -888,38 +859,29 @@ const Dashboard = () => {
             >
               <div style={{ width: "100%", textAlign: "center" }}>
                 <FormTag4
-                  value={Currency + " " + (GO1||0)}
+                  value={Currency + " " + (GO1 || 0)}
                   color="green"
                   title="Sell Price"
                 />
               </div>
               <div style={{ width: "100%", textAlign: "center" }}>
-                <FormTag4
-                  value={EO2||0}
-                  color="blue"
-                  title=" Quantity"
-                />
+                <FormTag4 value={EO2 || 0} color="blue" title=" Quantity" />
               </div>
               <div
                 style={{
                   width: "100%",
                   textAlign: "center",
-                  "margin-bottom": "-38px",
+                  marginBottom: "-38px",
                 }}
               >
                 <FormTag4
-                  value={Currency + " " + (EO3||0)}
+                  value={Currency + " " + (EO3 || 0)}
                   color="red"
                   title=" Stop Price"
                 />
               </div>
             </div>
           </div>
-            <p style={{ textAlign: "center", marginRight:"10rem"}}>
-                    <span style={{ color: "#FF4C4C" }}>Risk Overexposure!</span>{" "}
-                    <br />
-                    <span style={{ color: "#00FF00", textAlign:'center' }}>Safe to Trade!</span>
-                  </p>
         </div>
       </div>
     </div>

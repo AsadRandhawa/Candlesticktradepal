@@ -56,14 +56,14 @@ const Introduction = () => {
         } else if (res.data.period === Infinity) {
         } else {
           NotificationManager.warning(res.data, "Warning");
-          console.log(res.data);
+          // console.log(res.data);
           dispatch(InputAperiod(0));
           localStorage.setItem("Aperiod", 0);
           // setCperiod(res.data);
         }
       })
       .catch((err) => {
-        console.log(err.data);
+        // console.log(err.data);
       });
   };
 
@@ -212,8 +212,7 @@ const Introduction = () => {
           className="text-center"
           style={{ marginTop: "30px", color: "#CBCBE2", fontSize: "0.9rem" }}
         >
-          <p>©2024 Candlestick TradePal. All Rights Reserved</p>
-          <p>
+<p>©2024 <a href="https://www.candlesticktradepal.com/">Candlestick TradePal</a>. All Rights Reserved</p>          <p>
             By using Candlestick TradePal, you agree to our{" "}
             <a
               href="/terms"
@@ -224,10 +223,10 @@ const Introduction = () => {
           </p>
           <p>
             <a
-              href="www.candlesticktradepal.com/help"
+              href="https://www.candlesticktradepal.com/user-guide/"
               style={{ color: "#CBCBE2", textDecoration: "underline" }}
             >
-              www.candlesticktradepal.com/help
+             https://www.candlesticktradepal.com/user-guide/
             </a>
           </p>
         </footer>

@@ -52,7 +52,6 @@ const ForgotPassword = () => {
     }
     const NewPass = () => {
         if (pAss || cPass || pAss === cPass) {
-            console.log(eMail)
             axios.post('/api/users/newpass', { email: eMail, pass: pAss }).then(res => {
                 if (res.data) {
                     NotificationManager.success(res.data, 'Success');

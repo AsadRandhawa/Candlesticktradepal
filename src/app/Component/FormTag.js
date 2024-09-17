@@ -5,7 +5,7 @@ import { InputCurrency } from "../../reducers/InputSlice";
 
 const FormTag = (props) => {
   const { currency, onCurrencyChange, disabled } = props; // Receiving from parent
-console.log(currency)
+// console.log(currency)
   const dispatch = useDispatch();
 
   const renderSwitch = (param) => {

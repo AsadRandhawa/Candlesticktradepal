@@ -18,6 +18,11 @@ import {
   InputLLL01,
   InputLLL02,
   InputLLL03,
+  InputFFF01,
+  InputGGGO2,
+  InputHHH01,
+  InputHHH02,
+  InputHHH03,
 } from "../../reducers/InputSlice";
 import FormTag from "../Component/FormTag";
 import GaugeChart from "react-gauge-chart";
@@ -26,16 +31,9 @@ import FormTag4 from "../Component/FormTag4";
 import { setCurrency } from "../../reducers/counterSlice";
 import { setToggle } from "../../reducers/toggleSlice";
 
-// import "./style.css";
-
 const Dashboard = () => {
   const isSCToggleOn = useSelector((state) => state.toggle.toggle);
-  const [isOFToggleOn, setIsOFToggleOn] = useState(false);
   const CurrencySelect = useSelector((state) => state.currency.currency);
-
-  const handleOFToggle = () => {
-    setIsOFToggleOn(!isOFToggleOn);
-  };
 
   let num = Intl.NumberFormat("en-US");
   const [countI, setCountI] = useState(2);
@@ -114,12 +112,7 @@ const Dashboard = () => {
     // if (MCO1 <= 100000)
     setCO1(parseFloat(MCO1));
   };
-  const handleEEEO3 = (evt) => {
-    let EEO3 = evt.target.value;
-    let MEO3 = Number(EEO3.replace(/,/g, ""));
-    // if (MEO3 <= 100000)
-    setEO3(parseFloat(MEO3));
-  };
+
   //DDDO2 (CO1/(EO1-EO3)/MO1)
   const [DO2, setDO2] = useState(0);
   //HHHO2 EO1*EO2*MO1
@@ -186,12 +179,18 @@ const Dashboard = () => {
   const [LO3, setLO3] = useState(0);
   //KKKO2 EO1+(EO1*JO2/HO2)
   const [KO2, setKO2] = useState(0);
+  console.log(KO2);
   //HHHO3 GO2/CO1
   const [HO3, setHO3] = useState(0);
   useEffect(() => {
-    console.log(localStorage.getItem("username"));
+    // console.log(localStorage.getItem("username"));
     // Update the document title using the browser API
     dispatch(InputAAAO1(AO1));
+    dispatch(InputFFF01(FO1));
+    dispatch(InputGGGO2(GO2));
+    dispatch(InputHHH01(HO1));
+    dispatch(InputHHH02(HO2));
+    dispatch(InputHHH03(HO3));
     dispatch(InputAAAO2(AO2));
     dispatch(InputEEEO1(EO1));
     dispatch(InputMMMO1(MO1));
@@ -274,7 +273,7 @@ const Dashboard = () => {
     EO1 * EO2 * JO1 * 0.01 * MO1 === Infinity ||
     EO1 * EO2 * JO1 * 0.01 * MO1 === -Infinity
       ? setJO2(0)
-      : setJO2(Math.ceil(EO1*EO2*JO1*MO1/100*10)/10);
+      : setJO2(Math.ceil(((EO1 * EO2 * JO1 * MO1) / 100) * 10) / 10);
 
     !(EO1 - IO1 * 0.01 * EO1) ||
     EO1 - IO1 * 0.01 * EO1 === Infinity ||
@@ -309,17 +308,10 @@ const Dashboard = () => {
       : setLO3(GO1 - EO3);
   });
   const PricePostionDelete = (p) => {
-    if (p === 1) {
-      setEO1("");
-      setEO2("");
-      setEO3("");
-      setGO1("");
-    } else if (p === 2) {
-      setEO1("");
-      setEO2("");
-      setEO3("");
-      setGO1("");
-    }
+    setEO1("");
+    setEO2("");
+    setEO3("");
+    setGO1("");
   };
 
   const CurrencyChange = (e) => {
@@ -364,41 +356,49 @@ const Dashboard = () => {
   };
   const fields = [
     {
-      title: "Share / contracts Quantity",
+      title: "Recommended Quantity",
       color: "#1EC2EC",
-      value: Currency + Math.round(DO2 * 10) / 10,
+      value: parseFloat(
+        (Math.round(DO2 * 10) / 10).toFixed(2)
+      ).toLocaleString(),
       centered: true,
       marginBottom: "0px",
     },
     {
       title: "Projected Loss",
-      value: Currency + (IO2? (Math.round(HO2*IO1-1)/100).toFixed(2): 0),
+      value:
+        Currency +
+        (IO2
+          ? parseFloat((Math.round(HO2 * IO1 - 1) / 100).toFixed(2))
+          : parseFloat((0).toFixed(2))
+        ).toLocaleString(),
       color: "#FF0000",
     },
     {
       title: "Stop Loss",
-      value: Currency + (EO1-(IO1*0.01)*EO1).toFixed(2),
+      value:
+        Currency +
+        parseFloat((EO1 - IO1 * 0.01 * EO1).toFixed(2)).toLocaleString(),
       color: "#FF0000",
       marginBottom: "0px",
     },
     {
       title: "Projected Profit",
-      value: Currency + JO2,
+      value: Currency + JO2.toFixed(2).toLocaleString(),
       color: "#67C839",
     },
     {
       title: "Take Profit",
-      value: Currency + KO2,
+      value: Currency + KO2 ? parseFloat(KO2).toFixed(2).toLocaleString() : 0,
       color: "#67C839",
       marginBottom: "0px",
     },
     {
       title: "Actual Capital",
-      value: Currency + Math.round(HO2 * 10) / 10,
+      value: Currency + HO2.toFixed(2).toLocaleString(),
       color: "#ED8638",
     },
   ];
-  console.log("Ko2"+" "+KO2)
   const renderFieldsInCards = () => {
     let cards = [];
     let currentCard = [];
@@ -456,7 +456,45 @@ const Dashboard = () => {
 
     return cards;
   };
+  const [state, setState] = useState(false);
 
+  useEffect(() => {
+    setState({
+      C13: EO1,
+      C14: EO2,
+      C15: EO3,
+      C16: FO1,
+      C19: GO1,
+      C20: GO2,
+      C22: HO2,
+      C23: HO3,
+      C21: HO1,
+      C32: LO3,
+    });
+  }, [EO1, EO2, EO3, FO1, GO1, GO2, HO2, HO3, HO1, LO3]);
+
+  const saveStateToLocalStorage = () => {
+    // console.log(
+    //   EO1 && EO2 && EO3 && FO1 && GO1 && GO2 && HO2 && HO3 && HO1 && LO3
+    // );
+    if (EO1 && EO2 && EO3 && FO1 && GO1 && GO2 && HO2 && HO3 && HO1 && LO3) {
+      // Check if `state` has any properties
+      let data = [];
+      const savedState = localStorage.getItem("myComponentStateArray");
+
+      if (savedState) {
+        data = JSON.parse(savedState); // Parse the saved JSON string back into an array
+      }
+
+      // Add the new state to the data array
+      data.push(state);
+
+      // Save the updated array to localStorage
+      localStorage.setItem("myComponentStateArray", JSON.stringify(data));
+    } else {
+      alert("Enter Values ");
+    }
+  };
   return (
     <div>
       <div className="my-4 text-center">
@@ -465,7 +503,7 @@ const Dashboard = () => {
       <div className="row">
         {/* 1 */}
         <div className="col-12 col-lg-6 col-xl-3  order-1">
-          <div>
+          <div style={{ backgroundColor: "#27283a", paddingTop: "15px" }}>
             <h4 className="text-center" style={{ color: "#CBCBE2" }}>
               Trade Metrics
             </h4>
@@ -480,14 +518,14 @@ const Dashboard = () => {
               <div className="card" style={{ borderRadius: "8px" }}>
                 <div className="card-body">
                   <h4 className="text-center" style={{ color: "#CBCBE2" }}>
-                    Portfolio Strength
+                    Suggested Risk Per Trade
                   </h4>
                   <div className="row text-center mt-3 gap-5">
                     <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6">
                       <FormTag
                         color="green"
                         title="Portfolio Risk "
-                        value={Currency + " " + num.format(BO1.toFixed(2))}
+                        value={Currency + " " + num.format(BO1)}
                       />
                     </div>
                     <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6 my-3 my-sm-0">
@@ -625,104 +663,6 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="row mb-3">
-            <div className="col-sm-12">
-              <div
-                className="card"
-                style={{ backgroundColor: "#27283A", borderRadius: "8px" }}
-              >
-                <div className="card-body">
-                  <h4
-                    className="card-title"
-                    style={{ color: "#FFFFFF", textAlign: "center" }}
-                  >
-                    Summary Trade Plan
-                  </h4>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    Buy{" "}
-                    <span style={{ color: "#FFCC00", fontWeight: "bold" }}>
-                      {EO2 || 0}
-                    </span>{" "}
-                    position size at{" "}
-                    <span style={{ color: "#FFCC00", fontWeight: "bold" }}>
-                      {" " + Currency + (EO1 || 0) + " "}
-                    </span>
-                   
-                  </p>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                  Close Trade at{" "}
-                    <span style={{ color: "rgb(255, 62, 29)", fontWeight: "bold" }}>
-                      {" " + Currency + (GO1 || 0) + " "}
-                    </span>
-  
-                    For a
-                    <span style={{ color: "rgb(255, 62, 29)", fontWeight: "bold" }}>
-                      {" " + Currency + (FO1 || 0) + " "}
-                    </span>
-                    loss
-                  </p>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    Take profit at{" "}
-                    <span style={{ color: "#00FF00", fontWeight: "bold" }}>
-                    {" " + Currency + (GO1 || 0) + " "}
-                    </span>{" "}
-                    for a{" "}
-                    <span style={{ color: "#00FF00", fontWeight: "bold" }}>
-                    {" " + Currency + (GO2.toFixed(2) || 0) + " "}
-                    </span>{" "}
-                    gain.
-                  </p>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    Total cost of investment is {" "}
-                    <span style={{ color: "rgb(30, 194, 236)", fontWeight: "bold" }}>
-                    {" " + Currency + (HO2.toFixed(2) || 0) + " "}
-                    </span>{" "}
-                  </p>
-                  <p
-                    style={{
-                      color: "#FFFFFF",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    This plan has a {" "}
-                    <span style={{ color: "rgb(30, 194, 236)", fontWeight: "bold" }}>
-                    {" "  + (HO1.toFixed(2) || 0)+"%" + " "}
-                    </span>{" "}
-                    return on investment and a {" "}
-                    <span style={{ color: "rgb(30, 194, 236)", fontWeight: "bold" }}>
-                    {" "  + (HO3.toFixed(2) || 0) + " "}
-                    </span>{" "}
-                    X risk-reward ratio.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* 3 */}
@@ -734,17 +674,56 @@ const Dashboard = () => {
                   <h4 className="text-center" style={{ color: "#CBCBE2" }}>
                     Trade Performance
                   </h4>
-                  <h6 style={{ color: "#7071A4" }}>
-                    P/L Per Share{" "}
-                    <span style={{ color: "rgb(103, 200, 57)" }}>
-                      {Currency + " " + num.format(FO3.toFixed(2))}
-                    </span>
-                  </h6>
-                  <h6 style={{ color: "#7071A4" }}>
-                    Rol{" "}
-                    <span style={{ color: "#CBCBE2" }}>{HO1.toFixed(2)} %</span>
-                  </h6>
+                  <div className="row">
+                    <div className="col-6">
+                      <h6 style={{ color: "#7071A4" }}>
+                        P/L Per Share{" "}
+                        <span style={{ color: "rgb(103, 200, 57)" }}>
+                          {Currency + " " + num.format(FO3.toFixed(2))}
+                        </span>
+                      </h6>
 
+                      <h6 style={{ color: "#7071A4" }}>
+                        Rol{" "}
+                        <span style={{ color: "#CBCBE2" }}>
+                          {HO1.toFixed(2)} %
+                        </span>
+                      </h6>
+                    </div>
+                    <div className="col-6">
+                      <p style={{ textAlign: "center" }}>
+                        {HO2 !== 0 &&
+                        HO2 !== null &&
+                        DO1 !== 0 &&
+                        DO1 !== null ? (
+                          <>
+                            {HO2 > DO1 ? (
+                              <span style={{ color: "#FF4C4C" }}>
+                                Risk Overexposure!
+                              </span>
+                            ) : (
+                              ""
+                            )}
+
+                            {DO1 >= HO2 ? (
+                              <span
+                                style={{
+                                  color: "#00FF00",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Safe to Trade!
+                              </span>
+                            ) : (
+                              ""
+                            )}
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </p>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-sm-12">
                       <div
@@ -758,8 +737,9 @@ const Dashboard = () => {
                           hideText
                           textColor="#FFFF"
                           colors={["#FF0000", "#0A5D00", "#0EFF00"]}
-                          percent={HO1 ? HO1.toFixed(2) : 0}
-                          arcsLength={[0.15, 0.35, 0.5]}
+                          percent={HO1 ? Math.min(HO1, 1).toFixed(2) : 0}
+                          arcsLength={[0.02, 0.08, 0.09]} // Adjust to cover the whole gauge
+                          arcPadding={0.05} // Optional padding between arcs
                         />
                       </div>
                       <h6 className="text-center" style={{ color: "#CBCBE2" }}>
@@ -837,16 +817,16 @@ const Dashboard = () => {
                       <ButtonTag
                         color="input_green"
                         title="Price"
-                        onClick={() => PricePostionDelete(2)}
+                        onClick={() => PricePostionDelete()}
                         value="Clear data"
                       />
                     </div>
                     <div className="col-6">
-                      <Link to="detailed_report1">
+                      <Link to="report" onClick={saveStateToLocalStorage}>
                         <ButtonTag
                           color="input_green"
                           title="Price"
-                          value="Show Plan"
+                          value="Summary Report"
                         />
                       </Link>
                     </div>
@@ -879,7 +859,7 @@ const Dashboard = () => {
             >
               <div style={{ width: "100%", textAlign: "center" }}>
                 <FormTag4
-                  value={Currency + " " + (FO3.toFixed(2) || 0)}
+                  value={Currency + KO2 ? parseFloat(KO2).toLocaleString() : 0}
                   color="green"
                   title="Sell Price"
                 />
@@ -891,23 +871,22 @@ const Dashboard = () => {
                 style={{
                   width: "100%",
                   textAlign: "center",
-                  "margin-bottom": "-38px",
+                  marginBottom: "-38px",
                 }}
               >
                 <FormTag4
-                  value={Currency + " " + (FO2.toFixed(2) || 0)}
+                  value={
+                    Currency +
+                      parseFloat(
+                        (EO1 - IO1 * 0.01 * EO1).toFixed(2)
+                      ).toLocaleString() || 0
+                  }
                   color="red"
                   title="Stop Price"
                 />
               </div>
             </div>
           </div>
-          <p style={{ textAlign: "center", marginRight: "10rem" }}>
-            <span style={{ color: "#FF4C4C" }}>Risk Overexposure!</span> <br />
-            <span style={{ color: "#00FF00", textAlign: "center" }}>
-              Safe to Trade!
-            </span>
-          </p>
         </div>
       </div>
     </div>

@@ -55,7 +55,6 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const changeHandler = value => {
     setValue(value);
-    console.log();
     setCountry(value.label);
     // HandleChange(7, value.label);
   }
@@ -134,14 +133,12 @@ const Register = () => {
       axios
         .post("http://144.76.105.15:5001/api/users/register", arr)
         .then((res) => {
-          console.log(res.data);
           if (res.data === "UserEmail already exists!" || res.data === "UserName already exists!")
             messageApi.open({
               type: "error",
               content: res.data,
             });
           else {
-            console.log(res.data);
             message.success(res.data);
             setRedirect(true);
           }

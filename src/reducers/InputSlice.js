@@ -9,6 +9,7 @@ export const InputSlice = createSlice({
     CCCO1: 0,
     EEEO3: 0,
     EEEO2: 0,
+    FFF01: 0,
     LLL05: 0,
     LLL01: 0,
     LLL02: 0,
@@ -17,6 +18,10 @@ export const InputSlice = createSlice({
     IIIO1: 0,
     JJJO1: 0,
     GGGO1: 0,
+    GGGO2: 0,
+    HHH01: 0,
+    HHH02: 0,
+    HHH03: 0,
     Currency: '$',
     Auth: false,
     MenuIcon: true,
@@ -30,6 +35,21 @@ export const InputSlice = createSlice({
     RPeriod: 0
   },
   reducers: {
+    InputHHH01: (state, action) => {
+      state.HHH01 = action.payload
+    },
+    InputHHH02: (state, action) => {
+      state.HHH02 = action.payload
+    },
+    InputHHH03: (state, action) => {
+      state.HHH03 = action.payload
+    },
+    InputGGGO2: (state, action) => {
+      state.GGGO2 = action.payload
+    },
+    InputFFF01: (state, action) => {
+      state.FFF01 = action.payload
+    },
     InputAAAO1: (state, action) => {
       state.AAAO1 = action.payload
     },
@@ -110,6 +130,6 @@ export const InputSlice = createSlice({
     }
   },
 })
-export const { InputAAAO1,InputLLL01, InputAAAO2, InputEEEO1, InputMMMO1, InputCCCO1,InputLLL05,InputLLL02,InputLLL03, InputEEEO3, InputEEEO2, InputCCCO2, InputGGGO1, InputIIIO1, InputJJJO1, InputCurrency, InputMenuIcon, InputAuth, InputRPeriod, InputUsername, InputEmail,
+export const {InputHHH01,InputHHH02,InputHHH03 ,InputGGGO2,InputFFF01,InputAAAO1,InputLLL01, InputAAAO2, InputEEEO1, InputMMMO1, InputCCCO1,InputLLL05,InputLLL02,InputLLL03, InputEEEO3, InputEEEO2, InputCCCO2, InputGGGO1, InputIIIO1, InputJJJO1, InputCurrency, InputMenuIcon, InputAuth, InputRPeriod, InputUsername, InputEmail,
   InputUserId, InputLevel, InputFirstName, InputLastname, InputAperiod } = InputSlice.actions
 export default InputSlice.reducer

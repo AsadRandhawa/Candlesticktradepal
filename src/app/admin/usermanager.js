@@ -65,16 +65,16 @@ const UserManager = () => {
       else {
         NotificationManager.success(res.data, 'success');
       }
-      console.log(res.data);
+      // console.log(res.data);
       GetAllUsers();
       // setTableData(res.data);
     });
   };
 
   const handleSaveRowEdits = async (data) => {
-    console.log(data);
+    // console.log(data);
     axios.post("/api/users/updateuser", data).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setTableData(res.data);
     });
   };
@@ -91,9 +91,9 @@ const UserManager = () => {
           `Are you sure you want to delete ${row.getValue("username")}`
         )
       ) {
-        console.log(row.original);
+        // console.log(row.original);
         axios.post("/api/users/deleteuser", row.original).then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setTableData(res.data);
         });
         return;
@@ -249,14 +249,14 @@ const UserManager = () => {
 
   const handleSearchSubmit = (name) => (e) => {
     if (name === "Search" || e.key === "Enter") {
-      console.log(searchword);
+      // console.log(searchword);
       var searchitem = {
         searchword: searchword,
       };
-      console.log(searchword);
+      // console.log(searchword);
       if (searchword) {
         axios.post("/api/users/searchuser", searchitem).then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setTableData(res.data);
         });
       } else {
@@ -268,7 +268,7 @@ const UserManager = () => {
   };
 
   const handleEditing = (row) => () => {
-    console.log(row._valuesCache);
+    // console.log(row._valuesCache);
     setRowdata(row._valuesCache);
     setEditmodal(true);
   };
@@ -409,7 +409,7 @@ export const CreateNewAccountModal = ({
     }, {})
   );
   const handleSubmit = () => {
-    console.log(values);
+    // console.log(values);
     if (!values.username || values.username === "" || values.username === undefined)
       NotificationManager.warning("Invaild Username!", 'Failure');
     else if (!values.firstName || values.firstName === "" || values.firstName === undefined)
@@ -517,7 +517,7 @@ export const EditingModal = ({
   onClose,
   onSubmit,
 }) => {
-  console.log(rowdata);
+  // console.log(rowdata);
   const handleSubmit = () => {
     onSubmit(rowdata);
     NotificationManager.success("Exactly updated", 'Success');

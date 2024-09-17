@@ -4,7 +4,7 @@ import { NumericFormat } from 'react-number-format'
 import { Form } from 'react-bootstrap';
 
 function NumberInput(props) {
-    console.log(props.type)
+    // console.log(props.type)
     return (
         props.type === 'text' ? <Form.Control
             type="text"

@@ -13,7 +13,7 @@ const App = ({ i18n }) => {
 
   useEffect(() => {
     const onRouteChanged = () => {
-      console.log("ROUTE CHANGED");
+      // console.log("ROUTE CHANGED");
       const body = document.querySelector("body");
 
       if (location.pathname === "/layout/RtlLayout") {
@@ -25,13 +25,7 @@ const App = ({ i18n }) => {
       }
       window.scrollTo(0, 0);
 
-      const fullPageLayoutRoutes = [
-        "/login",
-        "/register",
-        "/forget_pass",
-        "/intro",
-        "/report",
-      ];
+      const fullPageLayoutRoutes = ["/login", "/register", "/forget_pass"];
 
       if (fullPageLayoutRoutes.includes(location.pathname)) {
         setIsFullPageLayout(true);
@@ -47,7 +41,7 @@ const App = ({ i18n }) => {
   return (
     <div className={`container-scroller`}>
       <div className="container-fluid">
-        {<Navbar />}
+        {!isFullPageLayout && <Navbar />}
         <div className="main-panel">
           <div className="content-wrapper">
             <AppRoutes />

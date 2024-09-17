@@ -4,9 +4,7 @@ import {Input} from "@mui/material"
 
 const Profile = () => {
     useEffect(() => {
-        console.log(localStorage.getItem("email"))
         axios.post("/getuser", localStorage.getItem("email")).then(res => {
-            console.log(res.data)
         })
     })
 
