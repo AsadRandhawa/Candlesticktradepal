@@ -42,8 +42,18 @@ const Introduction = () => {
     backgroundColor: "#2A2A3D",
   };
 
-  const { HHH01, HHH02, HHH03, GGGO2, FFF01,EEEO3, EEEO2, EEEO1, Currency, GGGO1 } =
-    useSelector((state) => state.InputValue);
+  const {
+    HHH01,
+    HHH02,
+    HHH03,
+    GGGO2,
+    FFF01,
+    EEEO3,
+    EEEO2,
+    EEEO1,
+    Currency,
+    GGGO1,
+  } = useSelector((state) => state.InputValue);
 
   const getuserperiod = () => {
     axios
@@ -219,7 +229,7 @@ const Introduction = () => {
                       <td style={cellStyle}>{Currency + val.C20.toFixed(2)}</td>
                       <td style={cellStyle}>{Currency + val.C22.toFixed(2)}</td>
                       <td style={cellStyle}>{Currency + val.C23.toFixed(2)}</td>
-                      <td style={cellStyle}>{val.C21.toFixed(2)+ ' X'}</td>
+                      <td style={cellStyle}>{val.C21.toFixed(2) + " X"}</td>
                       <td style={cellStyle}>{val.C32 + "%"}</td>
                     </tr>
                   ))}
@@ -250,7 +260,7 @@ const Introduction = () => {
               fontSize: "1.5rem",
               padding: "10px 30px",
               marginTop: "40px",
-              marginLeft: "10px"
+              marginLeft: "10px",
             }}
             onClick={() => clearState()}
           >
@@ -266,7 +276,7 @@ const Introduction = () => {
           <p>
             By using Candlestick TradePal, you agree to our{" "}
             <a
-              href="/terms"
+              href="https://www.candlesticktradepal.com/terms-and-services/"
               style={{ color: "#CBCBE2", textDecoration: "underline" }}
             >
               Terms and Conditions

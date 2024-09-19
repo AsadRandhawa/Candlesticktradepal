@@ -389,7 +389,7 @@ const Dashboard = () => {
     },
     {
       title: "Take Profit",
-      value: Currency + KO2 ? parseFloat(KO2).toFixed(2).toLocaleString() : 0,
+      value: Currency + (KO2 ? parseFloat(KO2).toFixed(2).toLocaleString() : 0),
       color: "#67C839",
       marginBottom: "0px",
     },
@@ -699,7 +699,7 @@ const Dashboard = () => {
                           <>
                             {HO2 > DO1 ? (
                               <span style={{ color: "#FF4C4C" }}>
-                                Risk Overexposure!
+                               Risk Alert: Risk Overexposure!
                               </span>
                             ) : (
                               ""
@@ -712,7 +712,7 @@ const Dashboard = () => {
                                   textAlign: "center",
                                 }}
                               >
-                                Safe to Trade!
+                                Risk Alert: Safe to Trade!
                               </span>
                             ) : (
                               ""
@@ -737,7 +737,7 @@ const Dashboard = () => {
                           hideText
                           textColor="#FFFF"
                           colors={["#FF0000", "#0A5D00", "#0EFF00"]}
-                          percent={HO1 ? Math.min(HO1, 1).toFixed(2) : 0}
+                          percent={HO1 ? Math.min(HO1 / 1, 1).toFixed(2) : 0}
                           arcsLength={[0.02, 0.08, 0.09]} // Adjust to cover the whole gauge
                           arcPadding={0.05} // Optional padding between arcs
                         />
@@ -826,7 +826,7 @@ const Dashboard = () => {
                         <ButtonTag
                           color="input_green"
                           title="Price"
-                          value="Summary Report"
+                          value="View/ Save Plan"
                         />
                       </Link>
                     </div>

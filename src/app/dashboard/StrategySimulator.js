@@ -626,12 +626,11 @@ const Dashboard = () => {
                       />
                     </div>
                     <div className="col-12 col-sm-6 d-flex align-items-center mt-4 justify-content-center">
-                    Market
+                      Market
                       <div
                         className="toggle-group"
                         style={{ padding: 10, margin: 20 }}
                       >
-                       
                         <label
                           className="form-label me-2"
                           style={{ marginRight: "10px" }}
@@ -827,7 +826,7 @@ const Dashboard = () => {
                         <ButtonTag
                           color="input_green"
                           title="Price"
-                          value="Summary Report"
+                          value="View/ Save Plan"
                         />
                       </Link>
                     </div>
