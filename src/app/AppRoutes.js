@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import Spinner from "../app/shared/Spinner";
 
@@ -20,15 +19,10 @@ const UserProfile = lazy(() => import("./user-pages/UserProfile"));
 const Period = lazy(() => import("./dashboard/period"));
 
 const AppRoutes = () => {
-  const { Auth, Aperiod } = useSelector((state) => state.InputValue);
-  // console.log(
-  //   localStorage.getItem("Auth"),
-  //   localStorage.getItem("Aperiod"),
-  //   localStorage.getItem("level")
-  // );
   let Tlogin =
-    localStorage.getItem("Auth") == 2 ? (
-      localStorage.getItem("level") == 1 || localStorage.getItem("Aperiod") ? (
+    localStorage.getItem("Auth") === "2" ? (
+      localStorage.getItem("level") === "1" ||
+      localStorage.getItem("Aperiod") ? (
         <Switch>
           <Route exact path="/intro" component={Intro} />
           <Route
@@ -73,13 +67,6 @@ const AppRoutes = () => {
       </Switch>
     );
 
-  return (
-    <Suspense fallback={<Spinner />}>
-      {/* <Switc>// */}
-      {Tlogin}
-
-      {/* </Switc/h>/ */}
-    </Suspense>
-  );
+  return <Suspense fallback={<Spinner />}>{Tlogin}</Suspense>;
 };
 export default AppRoutes;

@@ -1,10 +1,4 @@
 .pricing-plans {
-    /* gap: 32px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center; */
-    /* width: 100%; */
     padding: 64px;
 }
 
@@ -12,13 +6,11 @@
     background-color: #27263d;
     --col: #e4e4e7;
     position: relative;
-    /* min-width: 360px; */
     padding: 32px;
     height: 500px;
     padding-bottom: 96px;
     border-radius: 4px;
     border: 1px solid #262626;
-    /* background-color: #26262620; */
     box-shadow: 0 0 32px transparent;
     text-align: center;
 }
@@ -102,9 +94,7 @@
 .pricing-card .cta-btn {
     position: absolute;
     bottom: 32px;
-    /* left: 50%; */
     transform: translateX(-50%);
-    /* width: 200px; */
     padding: 12px;
     border-radius: 4px;
     border: 1px solid var(--col);

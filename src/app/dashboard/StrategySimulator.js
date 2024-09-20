@@ -157,6 +157,7 @@ const Dashboard = () => {
   const [LO2, setLO2] = useState(0);
   const [LO3, setLO3] = useState(0);
   const [HO3, setHO3] = useState(0);
+
   useEffect(() => {
     dispatch(InputFFF01(FO1));
     dispatch(InputHHH01(HO1));
@@ -275,6 +276,7 @@ const Dashboard = () => {
     CO2,
     GO1,
   ]);
+
   const PricePostionDelete = (p) => {
     setEO1("");
     setEO2("");
@@ -313,12 +315,13 @@ const Dashboard = () => {
     fontSize: "16px",
   };
 
-  const cardStyle = {
-    backgroundColor: "#27283A",
-    padding: "10px",
-    borderRadius: "8px",
-    marginBottom: "10px",
-  };
+  // const cardStyle = {
+  //   backgroundColor: "#27283A",
+  //   padding: "10px",
+  //   borderRadius: "8px",
+  //   marginBottom: "10px",
+  // };
+
   const fields = [
     {
       title: "Recommended Quantity",
@@ -432,22 +435,14 @@ const Dashboard = () => {
       );
 
       if (field.marginBottom) {
-        cards.push(
-          <div key={`card-${index}`} style={cardStyle}>
-            {currentCard}
-          </div>
-        );
+        cards.push(<div key={`card-${index}`}>{currentCard}</div>);
         currentCard = [];
       }
     });
 
     // Add remaining fields if any
     if (currentCard.length > 0) {
-      cards.push(
-        <div key={`card-last`} style={cardStyle}>
-          {currentCard}
-        </div>
-      );
+      cards.push(<div key={`card-last`}>{currentCard}</div>);
     }
 
     return cards;
@@ -470,187 +465,186 @@ const Dashboard = () => {
   }, [EO1, EO2, EO3, FO1, GO1, GO2, HO2, HO3, HO1, LO3]);
 
   const saveStateToLocalStorage = () => {
-    // if (EO1 && EO2 && EO3 && GO1 && GO2 && HO2 && HO3 && HO1 && LO3 & MO1 ) {
-    // Check if `state` has any properties
-    let data = [];
-    const savedState = localStorage.getItem("myComponentStateArray");
+    if (EO1 && EO2 && EO3 && GO1) {
+      let data = [];
+      const savedState = localStorage.getItem("myComponentStateArray");
 
-    if (savedState) {
-      data = JSON.parse(savedState); // Parse the saved JSON string back into an array
+      if (savedState) {
+        data = JSON.parse(savedState);
+      }
+
+      // Check if the object already exists
+      const exists = data.some(
+        (item) => JSON.stringify(item) === JSON.stringify(state)
+      );
+
+      if (!exists) {
+        data.push(state);
+        localStorage.setItem("myComponentStateArray", JSON.stringify(data));
+      }
+    } else {
+      alert("Enter Values For Submit");
     }
-
-    // Add the new state to the data array
-    data.push(state);
-
-    // Save the updated array to localStorage
-    localStorage.setItem("myComponentStateArray", JSON.stringify(data));
-    // } else {
-    // alert("Enter Values ");
   };
 
   return (
-    <div>
+    <>
       <div className="my-4 text-center">
-        <h1>PRICE SIMULATION</h1>
+        <h2>PRICE SIMULATION</h2>
       </div>
       <div className="row">
         {/* 1 */}
-        <div className="col-12 col-lg-6 col-xl-3 ">
-          <div style={{ backgroundColor: "#27283a", paddingTop: "15px" }}>
-            <h4 className="text-center" style={{ color: "#CBCBE2" }}>
-              Trade Metrics
-            </h4>
-            {renderFieldsInCards()}
+        <div className="col-12 col-lg-6 col-xl-3 d-flex">
+          <div className="card flex-fill" style={{ borderRadius: "8px" }}>
+            <div className="card-body">
+              <h4 className="text-center" style={{ color: "#CBCBE2" }}>
+                Trade Metrics
+              </h4>
+              {renderFieldsInCards()}
+            </div>
           </div>
         </div>
         {/* 2 */}
-        <div className="col-12 col-lg-6 col-xl-3  mb-3">
-          <div className="row mb-1">
-            <div className="col-sm-12">
-              <div className="card" style={{ borderRadius: "8px" }}>
-                <div className="card-body">
-                  <h4 className="text-center" style={{ color: "#CBCBE2" }}>
-                    Suggested Risk Per Trade
-                  </h4>
-                  <div className="row text-center mt-3 gap-5">
-                    <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6">
-                      <FormTag
-                        color="green"
-                        title="Portfolio Risk "
-                        value={Currency + " " + num.format(BO1)}
-                      />
-                    </div>
-                    <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6 my-3 my-sm-0">
-                      <FormTag title="Select Currency " />
-
-                      <select
-                        className="form-control"
-                        value={CurrencySelect}
-                        onChange={CurrencyChange}
-                        style={{
-                          backgroundColor: "#3B4758", // Background color
-                          color: "white", // Text color
-                          fontSize: 12, // Smaller font size
-                          padding: "8px", // Reduced padding for a smaller dropdown
-                          borderRadius: "5px", // Small border radius for rounded corners
-                          width: "auto", // Auto width for fitting the content
-                          display: "inline-block", // Ensure it doesn't take full width
-                        }}
-                      >
-                        {options}
-                      </select>
-                    </div>
-                    <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6">
-                      <FormTag
-                        color="green"
-                        title="Portfolio Quantity"
-                        value={num.format(BO2.toFixed(2))}
-                      />
-                    </div>
-                  </div>
+        <div className="col-12 col-lg-6 col-xl-3 mt-3 mt-lg-0 flex-column ">
+          {/* First Card */}
+          <div className="card flex-fill" style={{ borderRadius: "8px" }}>
+            <div className="card-body">
+              <h4 className="text-center" style={{ color: "#CBCBE2" }}>
+                Suggested Risk Per Trade
+              </h4>
+              <div className="row text-center mt-3 gap-5">
+                <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6">
+                  <FormTag
+                    color="green"
+                    title="Portfolio Risk "
+                    value={Currency + " " + num.format(BO1)}
+                  />
+                </div>
+                <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6 my-3 my-sm-0">
+                  <FormTag title="Select Currency " />
+                  <select
+                    className="form-control"
+                    value={CurrencySelect}
+                    onChange={CurrencyChange}
+                    style={{
+                      backgroundColor: "#3B4758",
+                      color: "white",
+                      fontSize: 12,
+                      padding: "8px",
+                      borderRadius: "5px",
+                      width: "auto",
+                      display: "inline-block",
+                    }}
+                  >
+                    {options}
+                  </select>
+                </div>
+                <div className="col-sm-6 col-md-4 col-xl-6 col-xxl-6">
+                  <FormTag
+                    color="green"
+                    title="Portfolio Quantity"
+                    value={num.format(BO2.toFixed(2))}
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <div className="row mb-1">
-            <div className="col-sm-12">
-              <div className="card" style={{ borderRadius: "8px" }}>
-                <div className="card-body">
-                  <h4 className="text-center" style={{ color: "#CBCBE2" }}>
-                    Portfolio Trade Management
-                  </h4>
-                  <div className="row mt-3">
-                    <div className="col-12 col-sm-6">
-                      <FormTag
-                        currency={CurrencySelect}
-                        disabled={true}
-                        onCurrencyChange={CurrencyChange}
-                        value={AAAO1}
-                        color="input_yellow"
-                        title="Portfolio Balance"
-                        val={CurrencySelect}
-                        onChange={handleAAAO1}
-                        onKeyPress={handleKeyPress}
-                        name="CIO1"
-                      />
-                    </div>
-                    <div className="col-12 my-3  my-sm-1 col-sm-6">
-                      <FormTag
-                        onKeyPress={handleKeyPress}
-                        value={AAAO2}
-                        color="input_yellow"
-                        title="Portfolio at Risk"
-                        val="%"
-                        onChange={handleAAAO2}
-                        name="CIO2"
-                      />
-                    </div>
-                    <div className="col-12 col-sm-6">
-                      <FormTag
-                        currency={CurrencySelect}
-                        disabled={true}
-                        onCurrencyChange={CurrencyChange}
-                        value={CCCO1}
-                        onKeyPress={handleKeyPress}
-                        color="input_red"
-                        title="My Risk Tolerance"
-                        val={Currency}
-                        onChange={handleCCCO1}
-                        name="CIO3"
-                      />
-                    </div>
-                    <div className="col-12 my-3 my-sm-1 col-sm-6">
-                      <FormTag
-                        currency={CurrencySelect}
-                        disabled={true}
-                        onCurrencyChange={CurrencyChange}
-                        value={CCCO2}
-                        onKeyPress={handleKeyPress}
-                        color="input_green"
-                        title="Profit Goal"
-                        onChange={handleCCCO2}
-                        val={Currency}
-                        name="CIO4"
-                      />
-                    </div>
 
-                    <div className="col-12 col-sm-6 mt-3">
-                      <FormTag
-                        value={MMMO1}
-                        color="input_white"
-                        onChange={handleMMMO1}
-                        title="Ticker"
-                        val="m"
-                        onKeyPress={handleKeyPress}
-                        name="CIO5"
+          {/* Second Card */}
+          <div className="card flex-fill mt-3" style={{ borderRadius: "8px" }}>
+            <div className="card-body">
+              <h4 className="text-center" style={{ color: "#CBCBE2" }}>
+                Portfolio Trade Management
+              </h4>
+              <div className="row mt-3">
+                <div className="col-12 col-sm-6">
+                  <FormTag
+                    currency={CurrencySelect}
+                    disabled
+                    onCurrencyChange={CurrencyChange}
+                    value={AAAO1}
+                    color="input_yellow"
+                    title="Portfolio Balance"
+                    val={CurrencySelect}
+                    onChange={handleAAAO1}
+                    onKeyPress={handleKeyPress}
+                    name="CIO1"
+                  />
+                </div>
+                <div className="col-12 my-3 my-sm-1 col-sm-6">
+                  <FormTag
+                    onKeyPress={handleKeyPress}
+                    value={AAAO2}
+                    color="input_yellow"
+                    title="Portfolio at Risk"
+                    val="%"
+                    onChange={handleAAAO2}
+                    name="CIO2"
+                  />
+                </div>
+                <div className="col-12 col-sm-6">
+                  <FormTag
+                    currency={CurrencySelect}
+                    disabled
+                    onCurrencyChange={CurrencyChange}
+                    value={CCCO1}
+                    onKeyPress={handleKeyPress}
+                    color="input_red"
+                    title="My Risk Tolerance"
+                    val={Currency}
+                    onChange={handleCCCO1}
+                    name="CIO3"
+                  />
+                </div>
+                <div className="col-12 my-3 my-sm-1 col-sm-6">
+                  <FormTag
+                    currency={CurrencySelect}
+                    disabled
+                    onCurrencyChange={CurrencyChange}
+                    value={CCCO2}
+                    onKeyPress={handleKeyPress}
+                    color="input_green"
+                    title="Profit Goal"
+                    onChange={handleCCCO2}
+                    val={Currency}
+                    name="CIO4"
+                  />
+                </div>
+
+                <div className="col-12 col-sm-6 mt-3">
+                  <FormTag
+                    value={MMMO1}
+                    color="input_white"
+                    onChange={handleMMMO1}
+                    title="Ticker"
+                    val="m"
+                    onKeyPress={handleKeyPress}
+                    name="CIO5"
+                  />
+                </div>
+                <div className="col-12 col-sm-6 d-flex align-items-center mt-4 justify-content-center">
+                  <div
+                    className="toggle-group"
+                    style={{ padding: 10, margin: 20 }}
+                  >
+                    <label
+                      className="form-label me-2"
+                      style={{ marginRight: "10px" }}
+                    >
+                      S/C
+                    </label>
+                    <label
+                      className="switch me-3"
+                      style={{ marginRight: "20px" }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSCToggleOn}
+                        onChange={handleSCToggle}
                       />
-                    </div>
-                    <div className="col-12 col-sm-6 d-flex align-items-center mt-4 justify-content-center">
-                      Market
-                      <div
-                        className="toggle-group"
-                        style={{ padding: 10, margin: 20 }}
-                      >
-                        <label
-                          className="form-label me-2"
-                          style={{ marginRight: "10px" }}
-                        >
-                          S/C
-                        </label>
-                        <label
-                          className="switch me-3"
-                          style={{ marginRight: "20px" }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={isSCToggleOn}
-                            onChange={handleSCToggle}
-                          />
-                          <span className="slider round"></span>
-                        </label>
-                        <label className="form-label me-2">O/F</label>
-                      </div>
-                    </div>
+                      <span className="slider round"></span>
+                    </label>
+                    <label className="form-label me-2">O/F</label>
                   </div>
                 </div>
               </div>
@@ -659,231 +653,209 @@ const Dashboard = () => {
         </div>
 
         {/* 3 */}
-        <div className="col-12 col-lg-6 col-xl-3">
-          <div className="row mb-1">
-            <div className="col-sm-12">
-              <div className="card">
-                <div className="card-body">
-                  <h4 className="text-center" style={{ color: "#CBCBE2" }}>
-                    Trade Performance
-                  </h4>
-                  <div className="row">
-                    <div className="col-6">
-                      <h6 style={{ color: "#7071A4" }}>
-                        P/L Per Share{" "}
-                        <span style={{ color: "rgb(103, 200, 57)" }}>
-                          {Currency + " " + num.format(LO5.toFixed(2))}
+        <div className="col-12 col-lg-6 col-xl-3 d-flex flex-column mt-3 mt-lg-0">
+          {/* First Card */}
+          <div className="card flex-fill" style={{ borderRadius: "8px" }}>
+            <div className="card-body">
+              <h4 className="text-center" style={{ color: "#CBCBE2" }}>
+                Trade Performance
+              </h4>
+              <div className="row">
+                <div className="col-6">
+                  <h6 style={{ color: "#7071A4" }}>
+                    P/L Per Share{" "}
+                    <span style={{ color: "rgb(103, 200, 57)" }}>
+                      {Currency + " " + num.format(LO5.toFixed(2))}
+                    </span>
+                  </h6>
+                  <h6 style={{ color: "#7071A4" }}>
+                    Rol <span style={{ color: "#CBCBE2" }}>{HO1} %</span>
+                  </h6>
+                </div>
+                <div className="col-6">
+                  <h6 style={{ color: "#7071A4" }}>Risk Alert: </h6>
+                  <p>
+                    {HO2 && DO1 ? (
+                      HO2 > DO1 ? (
+                        <span style={{ color: "#FF4C4C" }}>
+                          Risk Overexposure!
                         </span>
-                      </h6>
-                      <h6 style={{ color: "#7071A4" }}>
-                        Rol{" "}
-                        <span style={{ color: "#CBCBE2" }}>
-                          {HO1.toFixed(2)} %
+                      ) : (
+                        <span style={{ color: "#00FF00", textAlign: "center" }}>
+                          Safe to Trade!
                         </span>
-                      </h6>
-                    </div>
-                    <div className="col-6">
-                      <p style={{ textAlign: "center" }}>
-                        {HO2 !== 0 &&
-                        HO2 !== null &&
-                        DO1 !== 0 &&
-                        DO1 !== null ? (
-                          <>
-                            {HO2 > DO1 ? (
-                              <span style={{ color: "#FF4C4C" }}>
-                                Risk Alert: Risk Overexposure!
-                              </span>
-                            ) : (
-                              ""
-                            )}
-
-                            {DO1 >= HO2 ? (
-                              <span
-                                style={{
-                                  color: "#00FF00",
-                                  textAlign: "center",
-                                }}
-                              >
-                                Risk Alert: Safe to Trade!
-                              </span>
-                            ) : (
-                              ""
-                            )}
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </p>
-                    </div>
+                      )
+                    ) : null}
+                  </p>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-sm-12">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <GaugeChart
+                      hideText
+                      textColor="#FFFF"
+                      colors={["#FF0000", "#0A5D00", "#0EFF00"]}
+                      percent={Math.min(1, (HO3 - 0) / (2 - 0))}
+                      arcsLength={[0.02, 0.08, 0.09]}
+                      arcPadding={0.05}
+                    />
                   </div>
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <GaugeChart
-                          hideText
-                          textColor="#FFFF"
-                          colors={["#FF0000", "#0A5D00", "#0EFF00"]}
-                          percent={HO1 ? Math.min(HO1 / 1, 1).toFixed(2) : 0}
-                          arcsLength={[0.02, 0.08, 0.09]}
-                          arcPadding={0.05}
-                        />
-                      </div>
-                      <h6 className="text-center" style={{ color: "#CBCBE2" }}>
-                        {HO3.toFixed(2)}
-                        <span style={{ fontSize: "20px" }}> X</span>{" "}
-                      </h6>
-                    </div>
-                  </div>
+                  <h6 className="text-center" style={{ color: "#CBCBE2" }}>
+                    {HO3.toFixed(2)}
+                    <span style={{ fontSize: "20px" }}> X</span>{" "}
+                  </h6>
                 </div>
               </div>
             </div>
           </div>
-          <div className="row mb-2">
-            <div className="col-sm-12">
-              <div className="card" style={{ borderRadius: "8px" }}>
-                <div className="card-body">
-                  <h4 className="text-center" style={{ color: "#CBCBE2" }}>
-                    Price Order Simulator
-                  </h4>
-                  <div className="row mt-3">
-                    <div className="col-6">
-                      <FormTag
-                        disabled={true}
-                        currency={CurrencySelect}
-                        onCurrencyChange={CurrencyChange}
-                        max={100000}
-                        value={EEEO1}
-                        color="input_yellow"
-                        val="$"
-                        title="Entry Price"
-                        onChange={handleEEEO1}
-                        onKeyPress={handleKeyPress}
-                        name="CIO10"
-                      />
-                    </div>
-                    <div className="col-6">
-                      <FormTag
-                        max={100000}
-                        value={EEEO2}
-                        color="input_blue"
-                        title="Position Size"
-                        val="m"
-                        onChange={handleEEEO2}
-                        onKeyPress={handleKeyPress}
-                        name="CIO11"
-                      />
-                    </div>
-                    <div className="col-6">
-                      {/* <FormTag max={100000} value={IIIO1} color="input_red" val="%" title="Defined Risk" onChange={handleIIIO1} onKeyPress={handleKeyPress} name="CIO12" /> */}
 
-                      <FormTag
-                        disabled={true}
-                        currency={CurrencySelect}
-                        onCurrencyChange={CurrencyChange}
-                        max={100000}
-                        value={EEEO3}
-                        color="input_red"
-                        val="$"
-                        title="Stop Price"
-                        onChange={handleEEEO3}
-                        onKeyPress={handleKeyPress}
-                        name="CIO10"
-                      />
-                    </div>
-                    <div className="col-6">
-                      <FormTag
-                        disabled={true}
-                        currency={CurrencySelect}
-                        onCurrencyChange={CurrencyChange}
-                        max={100000}
-                        value={GGGO1}
-                        color="input_green"
-                        val="$"
-                        title="Sell Price"
-                        onChange={handleGGGO1}
-                        onKeyPress={handleKeyPress}
-                        name="CIO10"
-                      />
-                    </div>
-                  </div>
-                  <div className="row mt-2 text-center">
-                    <div className="col-6">
-                      <ButtonTag
-                        color="input_green"
-                        title="Price"
-                        onClick={() => PricePostionDelete(2)}
-                        value="Clear data"
-                      />
-                    </div>
-                    <div className="col-6">
-                      <Link to="report" onClick={saveStateToLocalStorage}>
-                        <ButtonTag
-                          color="input_green"
-                          title="Price"
-                          value="View/ Save Plan"
-                        />
-                      </Link>
-                    </div>
-                  </div>
+          {/* Second Card */}
+          <div className="card flex-fill mt-3" style={{ borderRadius: "8px" }}>
+            <div className="card-body d-flex flex-column">
+              <h4 className="text-center" style={{ color: "#CBCBE2" }}>
+                Price Order Simulator
+              </h4>
+              <div className="row mt-3">
+                <div className="col-12 col-sm-6">
+                  <FormTag
+                    disabled
+                    currency={CurrencySelect}
+                    onCurrencyChange={CurrencyChange}
+                    max={100000}
+                    value={EEEO1}
+                    color="input_yellow"
+                    val="$"
+                    title="Entry Price"
+                    onChange={handleEEEO1}
+                    onKeyPress={handleKeyPress}
+                    name="CIO10"
+                  />
+                </div>
+                <div className="col-12 col-sm-6">
+                  <FormTag
+                    max={100000}
+                    value={EEEO2}
+                    color="input_blue"
+                    title="Position Size"
+                    val="m"
+                    onChange={handleEEEO2}
+                    onKeyPress={handleKeyPress}
+                    name="CIO11"
+                  />
+                </div>
+                <div className="col-12 col-sm-6">
+                  <FormTag
+                    disabled
+                    currency={CurrencySelect}
+                    onCurrencyChange={CurrencyChange}
+                    max={100000}
+                    value={EEEO3}
+                    color="input_red"
+                    val="$"
+                    title="Stop Price"
+                    onChange={handleEEEO3}
+                    onKeyPress={handleKeyPress}
+                    name="CIO10"
+                  />
+                </div>
+                <div className="col-12 col-sm-6">
+                  <FormTag
+                    disabled
+                    currency={CurrencySelect}
+                    onCurrencyChange={CurrencyChange}
+                    max={100000}
+                    value={GGGO1}
+                    color="input_green"
+                    val="$"
+                    title="Sell Price"
+                    onChange={handleGGGO1}
+                    onKeyPress={handleKeyPress}
+                    name="CIO10"
+                  />
+                </div>
+              </div>
+              <div className="row pt-3 text-center">
+                <div className="col-6">
+                  <ButtonTag
+                    color="input_green"
+                    title="Price"
+                    onClick={() => PricePostionDelete(2)}
+                    value="Clear data"
+                  />
+                </div>
+                <div className="col-6">
+                  <Link to="report" onClick={saveStateToLocalStorage}>
+                    <ButtonTag
+                      color="input_green"
+                      title="Price"
+                      value="View/ Save Plan"
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* 4 */}
-        <div className="col-12 col-lg-6 col-xl-3   order-4">
-          <div className="d-flex">
-            {/* Image container taking half the row */}
-            <div className="col-sm-6" style={{ position: "relative" }}>
-              <div style={{ textAlign: "center", paddingTop: "20px" }}>
-                <img
-                  src={require("../../assets/images/Group 149.png")}
-                  alt="profile"
-                  style={{ height: "550px", width: "30%" }}
-                  className="profile-pic"
-                />
-              </div>
-            </div>
 
-            {/* FormTag4 components container taking half the row */}
-            <div
-              className="col-sm-6 d-flex flex-column mt-2 "
-              style={{ justifyContent: "space-between" }}
-            >
-              <div style={{ width: "100%", textAlign: "center" }}>
-                <FormTag4
-                  value={Currency + " " + (GO1 || 0)}
-                  color="green"
-                  title="Sell Price"
-                />
-              </div>
-              <div style={{ width: "100%", textAlign: "center" }}>
-                <FormTag4 value={EO2 || 0} color="blue" title=" Quantity" />
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  textAlign: "center",
-                  marginBottom: "-38px",
-                }}
-              >
-                <FormTag4
-                  value={Currency + " " + (EO3 || 0)}
-                  color="red"
-                  title=" Stop Price"
-                />
+        {/* 4 */}
+        <div className="col-12 col-lg-6 col-xl-3 d-flex mt-3 mt-lg-0">
+          <div className="card flex-fill" style={{ borderRadius: "8px" }}>
+            <div className=" card-body">
+              <div className="d-flex">
+                {/* Image container taking half the row */}
+                <div className="col-sm-6" style={{ position: "relative" }}>
+                  <div style={{ textAlign: "center", paddingTop: "20px" }}>
+                    <img
+                      src={require("../../assets/images/Group 149.png")}
+                      alt="profile"
+                      style={{ height: "550px", width: "30%" }}
+                      className="profile-pic"
+                    />
+                  </div>
+                </div>
+
+                {/* FormTag4 components container taking half the row */}
+                <div
+                  className="col-sm-6 d-flex flex-column mt-2 "
+                  style={{ justifyContent: "space-between" }}
+                >
+                  <div style={{ width: "100%", textAlign: "center" }}>
+                    <FormTag4
+                      value={Currency + " " + (GO1 || 0)}
+                      color="green"
+                      title="Sell Price"
+                    />
+                  </div>
+                  <div style={{ width: "100%", textAlign: "center" }}>
+                    <FormTag4 value={EO2 || 0} color="blue" title=" Quantity" />
+                  </div>
+                  <div
+                    style={{
+                      width: "100%",
+                      textAlign: "center",
+                      marginBottom: "-38px",
+                    }}
+                  >
+                    <FormTag4
+                      value={Currency + " " + (EO3 || 0)}
+                      color="red"
+                      title=" Stop Price"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default Dashboard;

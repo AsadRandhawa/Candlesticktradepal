@@ -44,26 +44,12 @@ export default function App() {
     EEEO2,
     CCCO2,
     GGGO1,
-    IIIO1,
-    JJJO1,
     Currency,
   } = useSelector((state) => state.InputValue);
   const dispatch = useDispatch();
 
   //HHHO2 EO1*EO2*MO1
   const [HO2, setHO2] = useState(0);
-
-  //IIIO2 HO2*IO1*0.01*-1
-  const [IO2, setIO2] = useState(0);
-
-  //JJJO2 EO1*EO2*JO1*MO1
-  const [JO2, setJO2] = useState(0);
-
-  //KKKO1 EO1-IO1*EO1
-  const [KO1, setKO1] = useState(0);
-
-  //KKKO2 EO1+(EO1*JO2/HO2)
-  const [KO2, setKO2] = useState(0);
 
   //GGGO2 (EO2*GO1-EO2*EO1)*MO1
   const [GO2, setGO2] = useState(0);
@@ -218,35 +204,11 @@ export default function App() {
       ? setHO1(0)
       : setHO1(GO2 / HO2);
 
-    !(HO2 * IIIO1 * 0.01 * -1) ||
-    HO2 * IIIO1 * 0.01 * -1 === Infinity ||
-    HO2 * IIIO1 * 0.01 * -1 === -Infinity
-      ? setIO2(0)
-      : setIO2(HO2 * IIIO1 * 0.01 * -1);
-
-    !(EO1 * EO2 * JJJO1 * 0.01 * MO1) ||
-    EO1 * EO2 * JJJO1 * 0.01 * MO1 === Infinity ||
-    EO1 * EO2 * JJJO1 * 0.01 * MO1 === -Infinity
-      ? setJO2(0)
-      : setJO2(EO1 * EO2 * JJJO1 * 0.01 * MO1);
-
-    !(EO1 - IIIO1 * 0.01 * EO1) ||
-    EO1 - IIIO1 * 0.01 * EO1 === Infinity ||
-    EO1 - IIIO1 * 0.01 * EO1 === -Infinity
-      ? setKO1(0)
-      : setKO1(EO1 - IIIO1 * 0.01 * EO1);
-
-    !(EO1 * 1 + (EO1 * JO2) / HO2) ||
-    EO1 * 1 + (EO1 * JO2) / HO2 === Infinity ||
-    EO1 * 1 + (EO1 * JO2) / HO2 === -Infinity
-      ? setKO2(0)
-      : setKO2(EO1 * 1 + (EO1 * JO2) / HO2);
-
     !(GO2 / CO1) || GO2 / CO1 === Infinity || GO2 / CO1 === -Infinity
       ? setHO3(0)
       : setHO3(GO2 / CO1);
     // eslint-disable-next-line
-  });
+  }, [dispatch, AO1, AO2, EO1, MO1, CO1, EO3, EO2, CO2, GO1, HO2, GO2]);
   const SummaryDelete = () => {
     setGO1("");
     setEO2("");

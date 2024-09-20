@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { NumericFormat } from "react-number-format";
 import { InputCurrency } from "../../reducers/InputSlice";
 
 const FormTag = (props) => {
   const { currency, onCurrencyChange, disabled } = props; // Receiving from parent
-// console.log(currency)
   const dispatch = useDispatch();
 
   const renderSwitch = (param) => {
@@ -87,7 +86,20 @@ const FormTag = (props) => {
     }
   };
 
-  const options = ["$", "£", "฿", "€", "¥", "₣", "₹"].map((item, index) => (
+  const options = [
+    "$",
+    "£",
+    "฿",
+    "€",
+    "¥",
+    "₣",
+    "₹",
+    "₦",
+    "₩",
+    "R",
+    "₡",
+    "د.إ",
+  ].map((item, index) => (
     <option key={index} value={item}>
       {item}
     </option>
@@ -95,7 +107,7 @@ const FormTag = (props) => {
 
   useEffect(() => {
     dispatch(InputCurrency(currency)); // Sync currency with global state if needed
-  }, [currency]);
+  }, [currency, dispatch]);
   return (
     <>
       {props.color === "input_yellow" ||

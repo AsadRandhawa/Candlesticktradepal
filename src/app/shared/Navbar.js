@@ -4,13 +4,26 @@ import { useSelector, useDispatch } from "react-redux";
 import { Dropdown } from "react-bootstrap";
 import { InputMenuIcon } from "../../reducers/InputSlice";
 import { FaBars } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const { Username } = useSelector((state) => state.InputValue);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [showPriceTesting, setShowPriceTesting] = useState(true);
 
+  const handleSCToggle = () => {
+    setShowPriceTesting(!showPriceTesting);
+    if (showPriceTesting) {
+      console.log(showPriceTesting);
+      history.push("/strategy_simulator");
+    } else {
+      history.push("/percent");
+    }
+  };
   const handleLogoutAndCloseMenu = () => {
     localStorage.clear();
     window.location = "/login";
@@ -191,11 +204,6 @@ const Navbar = () => {
     },
   };
 
-  const [showPriceTesting, setShowPriceTesting] = useState(true);
-
-  const toggleLinks = () => {
-    setShowPriceTesting((prev) => !prev);
-  };
   return (
     <nav style={styles.navbar}>
       <div style={styles.navbarInner}>
@@ -208,7 +216,6 @@ const Navbar = () => {
           <Link to="/" style={styles.navbarLink}>
             Welcome
           </Link>
-          
 
           <Link to="/report" style={styles.navbarLink}>
             Summary Report
@@ -216,6 +223,27 @@ const Navbar = () => {
           <Link to="/admin_user_management" style={styles.navbarLink}>
             User Management
           </Link>
+        </div>
+        <div
+          className="toggle-group align-items-center justify-content-center d-none d-md-block"
+          style={{
+            display: "flex",
+            alignItems: "center", // Vertical alignment
+            justifyContent: "center", // Horizontal alignment
+          }}
+        >
+          <label className="form-label me-2" style={{ marginRight: "10px" }}>
+            Price Testing
+          </label>
+          <label className="switch me-3" style={{ marginRight: "20px" }}>
+            <input
+              type="checkbox"
+              checked={showPriceTesting}
+              onChange={handleSCToggle}
+            />
+            <span className="slider round"></span>
+          </label>
+          <label className="form-label me-2">Percentile Testing</label>
         </div>
 
         <div style={styles.navbarToggle}>
@@ -226,56 +254,8 @@ const Navbar = () => {
             <FaBars className=" text-white text-xl" />
           </button>
         </div>
-        <div style={{ ...styles.navbarProfile, ...styles.navbarLinks }}>
-          {showPriceTesting && (
-            <Link
-              to="/strategy_simulator"
-              style={{
-                ...styles.priceLink,
-                ...(showPriceTesting ? styles.activeLink : {}),
-              }}
-              onClick={toggleLinks}
-            >
-              Price Testing
-            </Link>
-          )}
-          {!showPriceTesting && (
-            <Link
-              to="/percent"
-              style={{
-                ...styles.percentileLink,
-                ...(showPriceTesting ? {} : styles.activeLink),
-              }}
-              onClick={toggleLinks}
-            >
-              Percentile Testing
-            </Link>
-          )}
-          <Dropdown alignRight>
-            <Dropdown.Toggle as="a" style={styles.navbarProfileToggle}>
-              <div style={styles.navbarProfileIcon}>
-                {Username ? Username[0].toUpperCase() : "U"}
-              </div>
-            </Dropdown.Toggle>
-            <Dropdown.Menu style={styles.navbarDropdownMenu}>
-              <Dropdown.Item
-                as={Link}
-                to="/my_profile"
-                style={styles.navbarDropdownItem}
-              >
-                My Profile
-              </Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item
-                onClick={handleLogoutAndCloseMenu}
-                style={styles.navbarDropdownItem}
-              >
-                Log Out
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
       </div>
+
       {/* Mobile Menu */}
       {isOpen && (
         <div style={styles.mobileMenu}>
@@ -286,7 +266,7 @@ const Navbar = () => {
           >
             Welcome
           </Link>
-          
+
           <Link
             to="/report"
             style={styles.mobileMenuLink}
@@ -294,33 +274,34 @@ const Navbar = () => {
           >
             Summary Report
           </Link>
-          <Link to="/admin_user_management" style={styles.mobileMenuLink} onClick={() => setIsOpen(false)}>
+          <Link
+            to="/admin_user_management"
+            style={styles.mobileMenuLink}
+            onClick={() => setIsOpen(false)}
+          >
             User Management
           </Link>
-          {showPriceTesting && (
-            <Link
-              to="/strategy_simulator"
-              style={{
-                ...styles.mobilePriceLink,
-                ...(showPriceTesting ? styles.activeLink : {}),
-              }}
-              onClick={toggleLinks}
-            >
+          <div
+            className="toggle-group align-items-center justify-content-center "
+            style={{
+              display: "flex",
+              alignItems: "center", // Vertical alignment
+              justifyContent: "center", // Horizontal alignment
+            }}
+          >
+            <label className="form-label me-2" style={{ marginRight: "10px" }}>
               Price Testing
-            </Link>
-          )}
-          {!showPriceTesting && (
-            <Link
-              to="/percent"
-              style={{
-                ...styles.mobilePercentileLink,
-                ...(showPriceTesting ? {} : styles.activeLink),
-              }}
-              onClick={toggleLinks}
-            >
-              Percentile Testing
-            </Link>
-          )}
+            </label>
+            <label className="switch me-3" style={{ marginRight: "20px" }}>
+              <input
+                type="checkbox"
+                checked={showPriceTesting}
+                onChange={handleSCToggle}
+              />
+              <span className="slider round"></span>
+            </label>
+            <label className="form-label me-2">Percentile Testing</label>
+          </div>
           <Link
             to="/my_profile"
             style={styles.mobileMenuLink}

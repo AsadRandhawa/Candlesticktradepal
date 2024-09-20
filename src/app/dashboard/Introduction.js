@@ -8,6 +8,16 @@ import { useDispatch } from "react-redux";
 import { InputAperiod } from "../../reducers/InputSlice";
 
 const Introduction = () => {
+  const styles = {
+    button: {
+      color: "white",
+      fontSize: "0.875rem",
+      padding: "0.5rem 1rem",
+      backgroundColor: "#38a169",
+      borderRadius: "0.5rem",
+      textDecoration: "none",
+    },
+  };
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -88,29 +98,14 @@ const Introduction = () => {
 
         <div className="text-center" style={{ marginTop: "30px" }}>
           <div className="btn-group" role="group">
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              style={{ color: "#CBCBE2", borderColor: "#CBCBE2" }}
-              onClick={navigateToSimulator}
-            >
+            <button style={styles.button} onClick={navigateToSimulator}>
               Price Back-Test
             </button>
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              style={{ color: "#CBCBE2", borderColor: "#CBCBE2" }}
-              onClick={navigateToPercent}
-            >
+            <button style={styles.button} onClick={navigateToPercent}>
               {" "}
               Percentile Back-Test
             </button>
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              style={{ color: "#CBCBE2", borderColor: "#CBCBE2" }}
-              onClick={navigateToSummary}
-            >
+            <button style={styles.button} onClick={navigateToSummary}>
               Summary Trade Plan
             </button>
           </div>
